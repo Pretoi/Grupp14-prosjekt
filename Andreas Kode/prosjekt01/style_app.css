@@ -1,0 +1,11 @@
+#test{
+  background-color: red;
+  color: white;
+}
+#bodyDiv{
+  background-color: grey;
+  color: white;
+  height: auto;
+  width: auto;
+  font-family: arial;
+}
