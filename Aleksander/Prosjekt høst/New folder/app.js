@@ -8,7 +8,7 @@ const connection = mysql.createConnection({
   database : 'g_oops_14'
 });
 
-// Connect to MySQL-server
+///////////////// Connect to MySQL-server/////////////////////////////
 connection.connect(function(error) {
   if(error) throw error; // If error, show error in console and return from this function
 });
@@ -29,7 +29,7 @@ connection.query('select * from Arrangement order by Arrnavn', function(error, r
 });
 
 
-//detaljesiden
+//////////////////////detaljesiden///////////////////////////////////////////////
 arrangementDetaljer.onshow = function() {
 
   let arrNavnDetaljer = document.getElementById('arrNavnDetaljer');
@@ -58,13 +58,60 @@ if (err) throw err;
   }
 }
 
+///////////////lag event//////////////////////////////
+/*var typeArra = document.getElementById("typeArr");
+var arrType =  typeArra.selectedIndex;
+var x = typeArra.options[arrType].text;*/
+//typeArra.options[typeArra.selectedIndex].text;
+/*var stedArra = document.getElementById("plassArr");
+var arrSted = stedArra.options[stedArra.selectedIndex].text;*/
+
+function testEvent() {
+  var typeArra = document.getElementById("typeArr");
+  var arrType =  typeArra.selectedIndex;
+  var x = typeArra.options[arrType].text;
+  var folk = document.getElementById('antallFolk').value;
+  var stedArra = document.getElementById("plassArr");
+  var arrSted = stedArra.selectedIndex;
+  var z =
+  console.log(folk);
 
 
 
+  if (arrSted == 0) {
+    var z = 1
+  } else if (arrSted == 1){
+    var z = 2
+  }
 
 
 
-//sider ting
+  if (folk > 200) {
+    if (arrType == 0) {
+
+      var sanitet = folk * 0.01 * z
+      document.getElementById("Sanitet").innerHTML = sanitet;
+      console.log("LOOOOOL");
+    } else if (arrType == 1) {
+      var sanitet = folk * 0.02 * z
+      document.getElementById("Sanitet").innerHTML = sanitet;
+      console.log("nice");
+    }
+
+  /*  console.log(x);*/
+    console.log(z);/*
+    console.log(arrType);
+    console.log(arrSted);*/
+} else {
+    var sanitet = 4 * z
+    document.getElementById("Sanitet").innerHTML = sanitet;
+}
+
+}
+
+
+
+////////////////////////////sider ting////////////////////
 function updatePages() {
   let parts = window.location.hash.split('/');
 

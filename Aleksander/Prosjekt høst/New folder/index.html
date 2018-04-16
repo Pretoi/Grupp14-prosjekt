@@ -7,6 +7,7 @@
   <div>Menu:
     <a href="#/arrangementHovedside">Arrangement Hovedside</a>
     <a href="#/Hjelp!">About</a>
+    <a href="#/lagNyEvent">Ny Event</a>
   </div>
   <body>
 <div class="page" id="arrangementHovedside" style="display: none;">
@@ -20,6 +21,31 @@
 <div class="page" id="arrangementDetaljer" style="display: none;">
 
 <div>Name: <span id="arrNavnDetaljer"></span></div>
+
+</div>
+
+
+<div class="page" id="lagNyEvent" style="display: none;">
+
+Maks antall besøkende: <input id="antallFolk" type="number" name="antall" value="0"><br>
+Type Arr: <select name="typeArr" id="typeArr" onchange="testEvent()">
+    <option value="1">Festival</option>
+    <option value="2">Idretts arrangement</option>
+    <option value="3">Show</option>
+    <option value="4">Kurs/Opplæring</option>
+    <option value="5">Annet</option>
+</select><br>
+Arr plasering: <select name="plassArr" id="plassArr" onchange="testEvent()">
+    <option value="1">Storby</option>
+    <option value="2">Tettsted</option>
+    <option value="3">Fjell</option>
+    <option value="4">Utmark</option>
+    <option value="5">Annet</option>
+</select>
+<button type="button" id="submitArr" onclick="testEvent()">Lagre</button><br>
+Sanitet:<div id="Sanitet"></div>
+Snøskuter:<div id="Snoskuter"></div>
+Ambluanse:<div id="Ambulanse"></div
 
 </div>
 
