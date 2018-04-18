@@ -33,14 +33,24 @@ connection.query('select * from Arrangement order by Arrnavn', function(error, r
 arrangementDetaljer.onshow = function() {
 
   let arrNavnDetaljer = document.getElementById('arrNavnDetaljer');
+  let arrStedDetaljer = document.getElementById('arrStedDetaljer');
+  let arrBeskrivelseDetaljer = document.getElementById('arrBeskrivelseDetaljer')
+  let arrPoststedDetaljer = document.getElementById('arrPoststedDetaljer')
+  let arrPostnummerDetaljer = document.getElementById('arrPostnummerDetaljer')
+  let arrOppmoteDetaljer = document.getElementById('arrOppmoteDetaljer')
+  let arrStartDetaljer = document.getElementById('arrStartDetaljer')
+  let arrSluttDetaljer = document.getElementById('arrSluttDetaljer')
+  let arrDatoDetaljer = document.getElementById('arrDatoDetaljer')
 
-
+  var ledigePlasser = new Array;
+  var opptattePlasser = new Array;
   var parts = window.location.hash.split('/'); // parts[2] contains the index of the person
   var personsIndex = Number(parts[2]);         // to be shown from the persons table
 console.log(personsIndex)
   oppdater()
 function oppdater() {
   var sql = 'SELECT * FROM Arrangement WHERE Arrangement_ID = ?';
+
   //Send an array with value(s) to replace the escaped values:
   connection.query(sql, [personsIndex], function (err, results) {
 /*
@@ -53,9 +63,56 @@ if (err) throw err;
   for(let Arrangement of results) {
 
     arrNavnDetaljer.textContent = Arrangement.Arrnavn
+    arrBeskrivelseDetaljer.textContent = Arrangement.Beskrivelse
+    arrStedDetaljer.textContent = Arrangement.Oppmotested
+    arrPoststedDetaljer.textContent = Arrangement.Poststed
+    arrPostnummerDetaljer.textContent = Arrangement.Postnr
+    arrOppmoteDetaljer.textContent = Arrangement.Oppmotested
+    arrStartDetaljer.textContent = Arrangement.Starttidspunkt
+    arrSluttDetaljer.textContent = Arrangement.Sluttidspunkt
+    arrDatoDetaljer.textContent = Arrangement.Dato
+
   }
+  oppdaterRolle()
   });
+  function oppdaterRolle() {
+    var sql = 'SELECT * FROM Arrangement_Rolle WHERE Arrangements_ID = ?';
+
+  connection.query(sql, [personsIndex], function (err, results) {
+    if (err) throw err;
+    for(let Arrangement_Rolle of results) {
+    var Medlemsnr = Arrangement_Rolle.Medlemsnr
+    var Gitt_Rolle = Arrangement_Rolle.Gitt_Rolle
+  //  console.log(Medlemsnr);
+
+    if (!Medlemsnr) {
+      //console.log("LOOL");
+      ledigePlasser.push(Arrangement_Rolle)
+    //  console.log(ledigePlasser);
+    }else {
+      opptattePlasser.push(Arrangement_Rolle)
+      //  console.log("NICE")
+    };
+      //  console.log(opptattePlasser);
+
   }
+
+  ledigePlasser.toString();
+  //  console.log(ledigePlasser);
+    /*for (var i = 0; i < results.length; i++) {
+
+
+    if (Medlemsnr == 13) {
+      console.log("LOOL");
+    }else {
+
+
+        console.log("NICE")};
+}*/
+  });
+};
+  }
+
 }
 
 ///////////////lag event//////////////////////////////
