@@ -1,0 +1,50 @@
+#header{
+  background-color: #9e3c3c;
+  color: white;
+}
+#menuBtn{
+  background-color: #9e3c3c;
+  width: auto;
+  position: relative;
+  padding: 1em;
+  display: inline-block;
+}
+#menuBtn:hover{
+  background-color: #e87474
+}
+#periodHeader{
+  font-style: bold;
+}
+#periodList{
+  border-style: solid;
+  color: blue;
+}
+#content{
+  padding: 1em;
+  border: solid;
+  margin-bottom: auto;
+}
+
+input{
+  font-size: 1em;
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+textarea{
+  font-size: 1em;
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+button{
+  font-size: 1em;
+}
+a:link {
+    color: black;
+}
+a:hover {
+    color: #ffdbdb;
+}
