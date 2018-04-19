@@ -121,11 +121,10 @@ class UserService {
 }
 
 
-
 class EventService {
 
   getEvent(input, callback) {
-    connection.query('SELECT * FROM Arrangement WHERE Arrnavn = ?', [input], (error, result) => {
+    connection.query('SELECT * FROM Arrangement WHERE Arrangement_ID = ?', [input], (error, result) => {
       if(error) throw error;
 
       callback(result[0]);
@@ -133,11 +132,19 @@ class EventService {
   }
 
   getEvents(input, callback) {
-    connection.query('SELECT * FROM Arrangement', [], (error, result) => {
+    connection.query('SELECT * FROM Arrangement ORDER BY Arrnavn', [], (error, result) => {
       if(error) throw error;
 
       callback(result);
     });
+  }
+
+  getUsersEvents(medlemsnr, callback) {
+    connection.query('SELECT * FROM Deltager INNER JOIN Arrangement ON Deltager.Arrangement_ID = Arrangement.Arrangement_ID WHERE Medlemsnr = ?', [medlemsnr], (error, result) => {
+      if(error) throw error
+
+      callback(result)
+    })
   }
 
   createEvent(Arrangement_ID, Arrnavn, Beskrivelse, Oppmotested,
@@ -146,8 +153,40 @@ class EventService {
      [Arrangement_ID, Arrnavn, Beskrivelse, Oppmotested, Oppmotetidsspunkt, Starttidspunkt, Sluttidspunkt, Poststed, Postnr], (error, result) => {
       if (error) throw error;
       callback();
-    });
+    })
   }
+
+  getEventRoles(input, callback) {
+    connection.query('SELECT * FROM Arrangement_Rolle WHERE Arrangements_ID = ?' , [input], (error, result) => {
+      if (error) throw error
+      callback(result)
+    })
+  }
+
+}
+
+class CalendarService{
+
+  createUserPeriod(startdato, sluttdato, status, medlemsnr, callback){
+    connection.query('INSERT INTO Periode (Startdato, Sluttdato, Status, Medlemsnr) values (?, ?, ?, ?)',
+    [startdato, sluttdato, status, medlemsnr], (error, result) => {
+      if (error) throw error
+      callback()
+    })
+  }
+
+  getUserPeriod(medlemsnr, callback){
+    connection.query('SELECT * FROM Periode WHERE Medlemsnr = ? ORDER BY Startdato', [medlemsnr], (error, result) => {
+      if(error) throw error
+      if(result.length<1) {
+        console.log('Error 208: Could not get period')
+      }
+      callback(result)
+    })
+  }
+
+
+
 
 
 
@@ -155,5 +194,6 @@ class EventService {
 
 let userService = new UserService();
 let eventService = new EventService();
+let calendarService = new CalendarService();
 
-export { userService, eventService };
+export { userService, eventService, calendarService };

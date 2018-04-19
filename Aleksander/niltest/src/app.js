@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Link, NavLink, HashRouter, Switch, Route } from 'react-router-dom';
 import createHashHistory from 'history/createHashHistory';
 const history = createHashHistory();
-import { userService, eventService } from './services';
+import { userService, eventService, calendarService } from './services';
 
 //#################MENY##################################################
 
@@ -16,31 +16,57 @@ class Menu extends React.Component {
     if(signedInUser) {
       if(signedInUser.Administrator){
         return (
-          <div id="test">
+          <div id="header">
             <div>Du er logget inn som Administrator</div>
-            <NavLink activeStyle={{color: 'green'}} exact to='/'>Profil</NavLink>{' '}
-            <NavLink activeStyle={{color: 'green'}} to='/events'>Arrengement</NavLink>{' '}
-            <NavLink activeStyle={{color: 'green'}} to='/signout'>Logg Ut</NavLink>{' '}
-            <NavLink activeStyle={{color: 'green'}} to='/createevent'>Lag Arrangement</NavLink>{' '}
-            <NavLink activeStyle={{color: 'green'}} to='/kalender'>Kalender</NavLink>{' '}
-            <NavLink activeStyle={{color: 'green'}} to='/search'>Søk</NavLink>{' '}
+            <div id="menuBtn">
+              <NavLink activeStyle={{color: '#ffdbdb'}} exact to='/'>Profile</NavLink>{' '}
+            </div>
+            <div id="menuBtn">
+              <NavLink activeStyle={{color: '#ffdbdb'}} to='/events'>Arrengement</NavLink>{' '}
+            </div>
+            <div id="menuBtn">
+              <NavLink activeStyle={{color: '#ffdbdb'}} to='/createevent'>Lag Arrangement</NavLink>{' '}
+            </div>
+            <div id="menuBtn">
+              <NavLink activeStyle={{color: '#ffdbdb'}} to='/kalender'>Kalender</NavLink>{' '}
+            </div>
+            <div id="menuBtn">
+              <NavLink activeStyle={{color: '#ffdbdb'}} to='/search'>Søk</NavLink>{' '}
+            </div>
+            <div id="menuBtn">
+              <NavLink activeStyle={{color: '#ffdbdb'}} to='/signout'>Logg Ut</NavLink>{' '}
+            </div>
           </div>
-        );
+        )
       }
       return (
-        <div>
-          <NavLink activeStyle={{color: 'green'}} exact to='/'>Profil</NavLink>{' '}
-          <NavLink activeStyle={{color: 'green'}} to='/events'>Arrangement</NavLink>{' '}
-          <NavLink activeStyle={{color: 'green'}} to='/signout'>Logg Ut</NavLink>{' '}
-          <NavLink activeStyle={{color: 'green'}} to='/kalender'>Kalender</NavLink>{' '}
-          <NavLink activeStyle={{color: 'green'}} to='/search'>Søk</NavLink>{' '}
+        <div id="header">
+          <div id="menuBtn">
+            <NavLink activeStyle={{color: '#ffdbdb'}} exact to='/'>Profil</NavLink>{' '}
+          </div>
+          <div id="menuBtn">
+            <NavLink activeStyle={{color: '#ffdbdb'}} to='/events'>Arrengement</NavLink>{' '}
+          </div>
+          <div id="menuBtn">
+            <NavLink activeStyle={{color: '#ffdbdb'}} to='/kalender'>Kalender</NavLink>{' '}
+          </div>
+          <div id="menuBtn">
+            <NavLink activeStyle={{color: '#ffdbdb'}} to='/search'>Søk</NavLink>{' '}
+          </div>
+          <div id="menuBtn">
+            <NavLink activeStyle={{color: '#ffdbdb'}} to='/signout'>Logg Ut</NavLink>{' '}
+          </div>
         </div>
-      );
+      )
     }
     return (
-      <div>
-        <NavLink activeStyle={{color: 'green'}} to='/signin'>Sign In</NavLink>{' '}
-        <NavLink activeStyle={{color: 'green'}} to='/signup'>Sign Up</NavLink>
+      <div id="header">
+        <div id="menuBtn">
+          <NavLink activeStyle={{color: '#ffdbdb'}} to='/signin'>Sign In</NavLink>{' '}
+        </div>
+        <div id="menuBtn">
+          <NavLink activeStyle={{color: '#ffdbdb'}} to='/signup'>Sign Up</NavLink>
+        </div>
       </div>
     );
   }
@@ -60,7 +86,7 @@ let menu;
 class SignIn extends React.Component {
   render() {
     return(
-      <form>
+      <form id="content">
         <div>
           <h1>Logg inn på Røde Kors</h1>
         </div>
@@ -98,7 +124,7 @@ class SignUp extends React.Component {
     render() {
       return (
 
-          <div>
+          <div id="content">
             <h1>Røde Kors</h1>
 
             <label><b>Fornavn</b></label>
@@ -185,7 +211,7 @@ class Profile extends React.Component {
 
   return (
 
-    <div id="bodyDiv">
+    <div id="content">
       <div>
         <div>
           <div ref='fullNameDiv'></div>
@@ -208,44 +234,48 @@ class Profile extends React.Component {
   );
 }
 
-componentDidMount() {/*
+componentDidMount() {
   let signedInUser = userService.getSignedInUser();
-  userService.getUserInfo(signedInUser.Email, (result) => {
-    //console.log(result)
-    this.refs.fullNameDiv.innerText = 'Profilside til: ' + result.Fornavn + ' ' + result.Etternavn;
-    this.refs.firstNameDiv.innerText = 'Fornavn: ' + result.Fornavn;
-    this.refs.lastNameDiv.innerText = 'Etternavn: ' + result.Etternavn;
-    this.refs.emailDiv.innerText = 'Email-adresse: ' + result.Email;
-    this.refs.tlfNmbDiv.innerText = 'Telefonnummer: ' + result.Tlf;
-    this.refs.adresseDiv.innerText = 'Adresse: ' + result.Adresse;
-    this.refs.postnrDiv.innerText = 'Postnummer: ' + result.Postnr;
-    this.refs.postStedDiv.innerText = 'Poststed: ' + result.Poststed;
+  if(signedInUser) {
+    userService.getUserInfo(signedInUser.Email, (result) => {
+      //console.log(result)
+      this.refs.fullNameDiv.innerText = 'Profilside til: ' + result.Fornavn + ' ' + result.Etternavn;
+      this.refs.firstNameDiv.innerText = 'Fornavn: ' + result.Fornavn;
+      this.refs.lastNameDiv.innerText = 'Etternavn: ' + result.Etternavn;
+      this.refs.emailDiv.innerText = 'Email-adresse: ' + result.Email;
+      this.refs.tlfNmbDiv.innerText = 'Telefonnummer: ' + result.Tlf;
+      this.refs.adresseDiv.innerText = 'Adresse: ' + result.Adresse;
+      this.refs.postnrDiv.innerText = 'Postnummer: ' + result.Postnr;
+      this.refs.postStedDiv.innerText = 'Poststed: ' + result.Poststed;
+    })
 
-  })
+    userService.getUserExpertise(signedInUser.Medlemsnr, (result) => {
+      console.log(result)
+      let listItems = [];
+      let x = 0;
+      for(let expertise of result) {
+        listItems.push(result[x].Rollenavn);
+        x++
+      }
 
-  userService.getUserExpertise(signedInUser.Medlemsnr, (result) => {
-    console.log(result)
-    let listItems = [];
-    let x = 0;
-    for(let expertise of result) {
-      listItems.push(result[x].Rollenavn);
-      x++
-    }
-
-    this.refs.komp1Div.innerText = listItems
-  })
+      this.refs.komp1Div.innerText = listItems
+    })
+  }
+  else {
+    history.push('/signin');
+  }
 
   this.refs.editBtn.onclick = () => {
     history.push('/EditProfile')
   }
-*/
+
 }
 
 
 }
 
 //#################Rediger Profil##################################################
-/*
+
 class EditProfile extends React.Component {
 
 
@@ -253,7 +283,7 @@ class EditProfile extends React.Component {
 
   return (
 
-    <div>
+    <div id="content">
         <div ref='emailDiv'>
         </div>
       <ul>
@@ -268,7 +298,7 @@ class EditProfile extends React.Component {
       </ul>
       <button ref="saveButton">Oppdater</button>
     </div>
-  );
+  )
 }
 
 componentDidMount() {
@@ -299,35 +329,206 @@ componentDidMount() {
 }
 
 }
-*/
+
 //#################Events##################################################
 
 class Events extends React.Component {
 
   render() {
     return(
-      <div>
-        <div>Arrengmenter:</div>
+      <div id="content">
+        <div ref="ArrangementListe">Alle arrengmenter:</div>
           <div ref="arrDiv"></div>
-
+        <div>Aktuelle arrengmenter:</div>
+          <div ref="myArrDiv"></div>
+          <div ref="eventDetails"></div>
       </div>
     )
   }
 
   componentDidMount() {
-    eventService.getEvents("t", result => {
-      console.log(result)
-      let arrList = [];
+    let signedInUser = userService.getSignedInUser()
+    ///////////////// Connect to MySQL-server/////////////////////////////
+
+
+/*
+    eventService.getEvents('null', result =>  {
+      let arrangementList = document.createElement('ul')
+      for(let Arrangement of result) {
+        let a = document.createElement('a');
+        let knapp = document.createElement('BUTTON')
+        //a.href = history.push('/')
+        a.textContent = Arrangement.Arrnavn + ', ' + Arrangement.Oppmotested;
+        knapp.innerText = "Rediger"
+        let li = document.createElement('li');
+        li.appendChild(a);
+        arrangementList.appendChild(li);
+      }
+      this.refs.arrDiv.appendChild(arrangementList)
+    });
+*/
+
+    //##############HENTER ALLE ARRANGEMENTER#################
+
+    eventService.getEvents("null", result => {
+      let eventList = document.createElement('div')
+      eventList.id = 'eventlist'
       let y = 0;
       for(let arr of result) {
-        arrList.push(result[y].Arrnavn)
+        let arrnavn = document.createElement('ul')
+        let arrbeskrivelse = document.createElement('li')
+        let arrdato = document.createElement('li')
+        let knapp = document.createElement('BUTTON')
+        knapp.onclick = function () {
+          test(arr.Arrangement_ID);
+        }
+        arrnavn.innerText = result[y].Arrnavn
+        arrbeskrivelse.innerText = "Info: "+result[y].Beskrivelse
+        arrdato.innerText = "Dato: "+result[y].Dato.getFullYear()+ '-' + result[y].Dato.getMonth() + '-' + result[y].Dato.getDate()
+        knapp.innerText = "Mer info"
+        arrnavn.appendChild(arrbeskrivelse)
+        arrnavn.appendChild(arrdato)
+        arrnavn.appendChild(knapp)
+        eventList.appendChild(arrnavn)
+
         y++
       }
 
-      this.refs.arrDiv.innerText = arrList
+      this.refs.arrDiv.appendChild(eventList)
+    });
+
+
+    function test(arrnavn) {
+      localStorage.setItem("current_arrID", arrnavn)
+      history.push('/eventDetails')
+      console.log(arrnavn);
+    }
+    console.log("Medlemsnr: "+signedInUser.Medlemsnr)
+//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+
+
+    //HENTER AKTUELLE ARRANGEMENTER
+    eventService.getUsersEvents(signedInUser.Medlemsnr, result => {
+      console.log(result)
+      let myArrList = [];
+      let i = 0;
+      let status = "Ikke interessert"
+      for(let arr of result) {
+        if (result[i].Interesse == 2){
+          status = "Interesse meldt!"
+          myArrList.push("[X]"+" Arrnavn: "+result[i].Arrnavn+" Status: "+status+"[X]")
+          i++
+        }
+        else if (result[i].Interesse == 1){
+          status = "Aktiv periode"
+          myArrList.push("[X]"+" Arrnavn: "+result[i].Arrnavn+" Status: "+status+"[X]")
+          i++
+        }
+        else{
+          status = "Ikke interessert"
+          i++
+        }
+        console.log(i)
+      }
+
+      this.refs.myArrDiv.innerText = myArrList
+
     })
   }
 
+}
+
+class EventDetails extends React.Component{
+  render(){
+    return(
+      <div className="arrDetaljerListe">
+        <div ref="arrNavnDiv"></div>
+        <div ref='arrInfoDiv'></div>
+        <div ref='arrDatoDiv'></div>
+        <div ref='arrLocationDiv'></div>
+        <div ref='arrStartDiv'></div>
+        <div ref='arrSluttDiv'></div>
+        <div ref='arrPostnrDiv'></div>
+        <div ref='arrPoststedDiv'></div>
+        <div className="arrDetaljerRolleListe">
+          <div>Sanitet:<span ref="arrDetaljerRolleLedigSanitet"></span></div>
+          <div>Ambulansesjåfør:<span ref="arrDetaljerRolleLedigAmbulanse"></span></div>
+        </div>
+      </div>
+
+    /*  <div className="arrDetaljerRolleListe">
+        //<div>Sanitet:<span ref="arrDetaljerRolleSanitet"></span></div>
+      </div>*/
+    )
+  }
+  componentDidMount(){
+    let currentArrID = localStorage.getItem("current_arrID")
+
+    eventService.getEvent(currentArrID, (result) => {
+      this.refs.arrNavnDiv.innerText = result.Arrnavn
+      this.refs.arrInfoDiv.innerText = result.Beskrivelse
+      this.refs.arrDatoDiv.innerText = result.Dato
+      this.refs.arrLocationDiv.innerText = result.Oppmotested
+      this.refs.arrStartDiv.innerText = result.Starttidspunkt
+      this.refs.arrSluttDiv.innerText = result.Sluttidspunkt
+      this.refs.arrPostnrDiv.innerText = result.Postnr
+      this.refs.arrPoststedDiv.innerText = result.Poststed
+
+    })
+    eventService.getEventRoles(currentArrID, (result) => {
+       console.log(result)
+
+        let ledigeSanitet = [];
+        let ledigeAbulanse = [];
+
+
+        for(let Arrangement_Rolle of result) {
+        var Medlemsnr = Arrangement_Rolle.Medlemsnr
+        var Gitt_Rolle = Arrangement_Rolle.Gitt_Rolle
+
+      //  console.log(Medlemsnr);
+
+        if (!Medlemsnr) {
+          //console.log("LOOL");
+          if (Gitt_Rolle == "Sanitet") {
+          //  this.refs.arrDetaljerRolleLedigSanitet.innerText = result.arrDetaljerRolleLedigSanitet
+            ledigeSanitet.push(Arrangement_Rolle)
+
+        //    console.log(ledigeSanitet[1])
+          } else if (Gitt_Rolle == "Ambulansesjåfør"){
+            ledigeAbulanse.push(Arrangement_Rolle)
+          //  this.refs.arrDetaljerRolleLedigAmbulanse.innerText = result.arrDetaljerRolleLedigAmbulanse
+          }
+
+
+
+      //  this.refs.arrDetaljerRolleLedig.innerText = ledigePlasser
+        //  console.log(ledigePlasser);
+        /*}else {
+        //  opptattePlasser.push(Arrangement_Rolle)
+          //  console.log("NICE")
+        };*/
+      }
+    }
+    //  console.log(ledigeSanitet[0,1]);
+
+      for (var i = 0; i < ledigeSanitet.length; i++) {
+    this.refs.arrDetaljerRolleLedigSanitet.innerText= ledigeSanitet[i].Arr_RolleID
+
+
+      }
+      console.log(ledigeSanitet)
+        /*
+        for(let role of result) {
+          myArrList.push(result[i].Gitt_Rolle)
+          i++
+        }
+
+        this.refs.arrDetaljerRolleSanitet.innerText = myArrList*/
+
+      })
+  }
 }
 
 //#################Create Event##################################################
@@ -335,9 +536,7 @@ class Events extends React.Component {
 class CreateEvent extends React.Component {
     render() {
       return (
-
-          <div>
-            <h1>Røde Kors</h1>
+          <div id="content">
 
             <label><b>Arrangement_ID</b></label>
             <input type="number" ref="ArrId" placeholder="Arrangement ID" name="ArrId" required>
@@ -348,8 +547,8 @@ class CreateEvent extends React.Component {
             </input>
             <br></br>
             <label><b>Beskrivelse</b></label>
-            <input type="text" ref="ArrBeskrivelse" placeholder="Arrengement beskrivelse" name="ArrBeskrivelse" required>
-            </input>
+            <textarea ref="ArrBeskrivelse" placeholder="Arrengement beskrivelse" name="ArrBeskrivelse" required>
+            </textarea>
             <br></br>
             <label><b>Oppmøtested</b></label>
             <input type="text" ref="ArrOppmotested" placeholder="Sted" name="ArrOppmotested" required>
@@ -375,17 +574,106 @@ class CreateEvent extends React.Component {
             <input type="number" ref="ArrPostnr" placeholder="Skriv postnummer" name="ArrPostnr" required>
             </input>
             <br></br>
-            <button ref="signUpButton">Registrer nytt arrengement</button>
+            <label><b>Dette brukes til å generere vakt mal, hvis du vil lage en selv eller redigere trykket du på knappen på bunnen av siden</b></label>
+            <div>Type Arrangement:
+            <select name="typeArr" ref="rolleFordeling" id="test234" onChange={() => {oppdaterrolle()}}>
+                <option value="1">Festival</option>
+                <option value="2">Idretts arrangement</option>
+                <option value="3">Show</option>
+                <option value="4">Kurs/Opplæring</option>
+                <option value="5">Annet</option>
+            </select></div>
+            <div>Lokasjon:
+            <select name="plassArr" ref="rolleFordeling" id="plassArr" onChange={() => {oppdaterrolle()}}>
+                <option value="1">Storby</option>
+                <option value="2">Tettsted</option>
+                <option value="3">Fjell</option>
+                <option value="4">Utmark</option>
+                <option value="5">Kyst</option>
+                <option value="6">Annet</option>
+            </select></div>
+            <label>Maks antall deltagere</label>
+            <input type="number" ref="rolleFordeling" id="antallFolk" onChange={() => {oppdaterrolle()}}>
+            </input>
 
+            <br></br>
+
+
+            <div ref="arrRollListe">
+            Sanitet: <input type="number" ref="Sanitet" disabled="true" placeholder="2" id="rollerNyArr" min="2"></input>
+            Ambulansemedhjelper:  <input type="number" ref="Ambulansemedhjelper" disabled="true" placeholder="0" id="rollerNyArr1"></input>
+            Ambulansesjåfor: <input type="number" ref="Ambulansesjåfor" disabled="true" placeholder="0" id="rollerNyArr2"></input>
+            3 MannAmbluanse:  <input type="number" ref="3MannAmbluanse" disabled="true" placeholder="0" id="rollerNyArr3"></input>
+            Batforer:  <input type="number" ref="Batforer" disabled="true" placeholder="0" id="rollerNyArr4"></input>
+            Bathjelper:  <input type="number" ref="Bathjelper" disabled="true" placeholder="0" id="rollerNyArr5"></input>
+            Batmannskap:  <input type="number" ref="Batmannskap" disabled="true" placeholder="0" id="rollerNyArr6"></input>
+            Vaktlederr:  <input type="number" ref="Vaktleder" disabled="true" placeholder="1" min="1" id="rollerNyArr7"></input>
+            Scootersjofor:  <input type="number" ref="Scootersjofor" disabled="true" placeholder="0" id="rollerNyArr8"></input>
+            Scootermedhjelper:  <input type="number" ref="Scootermedhjelper" disabled="true" placeholder="0" id="rollerNyArr9"></input>
+            3 mannscooter:  <input type="number" ref="3mannscooter" disabled="true" placeholder="0" id="rollerNyArr10"></input>
+            ATVforer:  <input type="number" ref="ATVforer" disabled="true" placeholder="0" id="rollerNyArr11"></input>
+            Distriktsenor:  <input type="number" ref="Distriktsenor" disabled="true" placeholder="0" id="rollerNyArr12"></input>
+            Opplering:  <input type="number" ref="Opplering" disabled="true" placeholder="0" id="rollerNyArr13"></input>
+            Markor:  <input type="number" ref="Markor" disabled="true" placeholder="0" id="rollerNyArr14"></input>
+
+            <button ref="redigerRoller">Rediger Roller</button>
+            <button ref="signUpButton">REGISTRER</button>
+            </div>
 
           </div>
 
       )
     }
 
+
+
+
+
     componentDidMount() {
 
-      this.refs.signUpButton.onclick = () => {
+
+      //For å åpne for å redigere roller, gjort VEDLIG tungvindt///
+      this.refs.redigerRoller.onclick = () => {
+        var testtt = document.getElementById("rollerNyArr")
+        if (!testtt.disabled) {
+          document.getElementById("rollerNyArr").disabled = true;
+          document.getElementById("rollerNyArr1").disabled = true;
+          document.getElementById("rollerNyArr2").disabled = true;
+          document.getElementById("rollerNyArr3").disabled = true;
+          document.getElementById("rollerNyArr4").disabled = true;
+          document.getElementById("rollerNyArr5").disabled = true;
+          document.getElementById("rollerNyArr6").disabled = true;
+          document.getElementById("rollerNyArr7").disabled = true;
+          document.getElementById("rollerNyArr8").disabled = true;
+          document.getElementById("rollerNyArr9").disabled = true;
+          document.getElementById("rollerNyArr10").disabled = true;
+          document.getElementById("rollerNyArr11").disabled = true;
+          document.getElementById("rollerNyArr12").disabled = true;
+          document.getElementById("rollerNyArr13").disabled = true;
+          document.getElementById("rollerNyArr14").disabled = true;
+        }else {
+        document.getElementById("rollerNyArr").disabled = false;
+        document.getElementById("rollerNyArr1").disabled = false;
+        document.getElementById("rollerNyArr2").disabled = false;
+        document.getElementById("rollerNyArr3").disabled = false;
+        document.getElementById("rollerNyArr4").disabled = false;
+        document.getElementById("rollerNyArr5").disabled = false;
+        document.getElementById("rollerNyArr6").disabled = false;
+        document.getElementById("rollerNyArr7").disabled = false;
+        document.getElementById("rollerNyArr8").disabled = false;
+        document.getElementById("rollerNyArr9").disabled = false;
+        document.getElementById("rollerNyArr10").disabled = false;
+        document.getElementById("rollerNyArr11").disabled = false;
+        document.getElementById("rollerNyArr12").disabled = false;
+        document.getElementById("rollerNyArr13").disabled = false;
+        document.getElementById("rollerNyArr14").disabled = false;
+      }
+
+      }
+
+
+
+    /*  this.refs.signUpButton.onclick = () => {
 
         userService.signUpAdress(this.refs.ArrPostnr.value, this.refs.ArrPostSted.value, (result) => {
             console.log("Adresse og postnr registrert")
@@ -396,32 +684,195 @@ class CreateEvent extends React.Component {
           this.refs.ArrSlutt.value, this.refs.ArrPostSted.value, this.refs.ArrPostnr.value, (result) => {
             alert("Arrengement registrert")
             history.push('/signin');
-        });
-      }
+
+      });
+    }*/
+
+
+    /*  eventService.getEventRoles('0002', result => {
+        console.log(result)
+
+        let myArrList = [];
+        let i = 0;
+        for(let role of result) {
+          myArrList.push(result[i].Gitt_Rolle)
+          i++
+        }
+
+        this.refs.arrRoller.innerText = myArrList
+
+      })*/
+}
     }
-  }
+    function oppdaterrolle(){
+      console.log("HALO");
+
+      var typeArra = document.getElementById('test234').selectedIndex;
+      var folk = document.getElementById('antallFolk').value;
+      var stedArra = document.getElementById("plassArr").selectedIndex;
+      var z =
+
+      if (arrSted == 0) {
+        var z = 1
+      } else if (arrSted == 1){
+        var z = 1.1
+      } else if (arrSted == 2){
+        var z = 1.2
+      } else if (arrSted == 3){
+        var z = 1.3
+      } else if (arrSted == 4){
+        var z = 1.1
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
 
   //#################Kalender##################################################
 
   class Kalender extends React.Component {
+
     render() {
+
       return(
         <div>
+
           <div ref="calendar" />
+          <div>
+              <div id="periodList" ref="periodeResult"></div>
+
+              <div ref="arrDiv">
+              </div>
+
+              <div>
+                  <div>Registrer ny periode</div>
+                <ul>
+                  <li>Startdato: <input type='date' ref='startdato' /></li>
+                  <li>Sluttdato: <input type='date' ref='sluttdato' /></li>
+                  <li>Status: <input type='number' ref='status' /></li>
+                </ul>
+                <button ref="regButton">Registrer ny periode</button>
+              </div>
+          </div>
         </div>
       )
     }
 
     componentDidMount() {
-      let settings = {};
-      let events = [
-        {'Date': new Date(2018, 3, 4), 'Title': 'Barnas dag 2018', 'Link': ''},
-        {'Date': new Date(2018, 3, 7), 'Title': 'Konsert med M&M'},
-        {'Date': new Date(2018, 4, 18), 'Title': 'New Garfield movie comes out!', 'Link': 'https://garfield.com'},
-        {'Date': new Date(2018, 4, 27), 'Title': '25 year anniversary', 'Link': 'https://www.google.com.au/#q=anniversary+gifts'},
-      ];
-      calendar(this.refs.calendar, events, settings);
-      //console.log(userService.getSignedInUser());
+      let signedInUser = userService.getSignedInUser()
+
+      //HENT ALLE EVENTS OG PUTT INN I kalender
+      eventService.getEvents("null", (result) => {
+
+        let settings = {};
+        let events = [
+          /*{'Date': new Date(2018, 3, 4), 'Title': 'Barnas dag 2018', 'Link': ''},
+          {'Date': new Date(2018, 3, 7), 'Title': 'Konsert med M&M'},
+          {'Date': new Date(2018, 4-1, 18), 'Title': 'New Garfield movie comes out!', 'Link': 'https://garfield.com'},
+          {'Date': new Date(2018, 4, 27), 'Title': '25 year anniversary', 'Link': 'https://www.google.com.au/#q=anniversary+gifts'},*/
+        ];
+
+
+
+        let eventDateCalendar = 0
+        let eventDateCalendarList = []
+        let eventMonthDatabase = 0 //Måndte må lagres og gjøres om til int, fordi de i kalender appen starter på 0
+        let tittel = ''
+        let tittelListe = []
+
+        for (let events in result){
+
+          eventMonthDatabase = result[events].Dato.getMonth()
+          //console.log("Måndte er:"+eventMonthDatabase)
+          eventMonthDatabase = parseInt(eventMonthDatabase)+1
+          //console.log("Måndte er så:"+eventMonthDatabase)
+          tittel = result[events].Arrnavn
+          //console.log("DatoA:"+datoA)
+          eventDateCalendar = result[events].Dato.getFullYear()+ ',' + eventMonthDatabase + ',' + result[events].Dato.getDate()
+          eventDateCalendarList.push(eventDateCalendar)
+          tittelListe.push(tittel)
+
+        }
+        for (let i in eventDateCalendarList){
+          console.log("Datoliste:"+eventDateCalendarList[i])
+          events.push({'Date': new Date(eventDateCalendarList[i]), 'Title': tittelListe[i], 'Link': ''})
+        }
+        calendar(this.refs.calendar, events, settings)
+      })
+
+
+      console.log(userService.getSignedInUser());
+
+      //HENTER BRUKERENS PERIODER
+      calendarService.getUserPeriod(signedInUser.Medlemsnr, (result) => {
+        let periodList = document.createElement('ul');
+        periodList.id = "periodlist"
+        let x = 0;
+        let status = "Aktiv periode"
+        for(let expertise of result) {
+          let navn = document.createElement('li')
+          let slutt = document.createElement('ul')
+
+          if(result[x].Status == 1){
+            status = "Prioritert Periode"
+          }
+          else if(result[x].Status == 3){
+            status = "Uprioritert Periode"
+          }
+          let startPunkt = result[x].Startdato.getFullYear()+ '-' + result[x].Startdato.getMonth() + '-' + result[x].Startdato.getDate()
+          let sluttPunkt = result[x].Sluttdato.getFullYear()+ '-' + result[x].Sluttdato.getMonth() + '-' + result[x].Sluttdato.getDate()
+          navn.innerText = "Status: "+status+" Startdato: "+startPunkt
+          slutt.innerText = "Sluttdato: "+sluttPunkt
+          periodList.appendChild(navn)
+          periodList.appendChild(slutt)
+          x++
+        }
+
+        this.refs.periodeResult.appendChild(periodList)
+      })
+
+      //REGISTRER NY Periode
+      this.refs.regButton.onclick = () => {
+        console.log(this.refs.startdato.value+this.refs.sluttdato.value)
+        calendarService.createUserPeriod(this.refs.startdato.value, this.refs.sluttdato.value,
+          this.refs.status.value, signedInUser.Medlemsnr, (result) => {
+            alert("Periode Registrert")
+          })
+      }
+
+
     }
   }
 
@@ -430,12 +881,12 @@ class CreateEvent extends React.Component {
   class Search extends React.Component {
     render() {
       return(
-        <div>
+        <div id="content">
           <div>Søk på person:</div>
         <input type='text' ref='searchInput'></input>
         <button ref='searchButton'>Søk</button>
           <div>Personer funnet:
-            <div ref="personList"></div>
+            <div ref="searchUserDiv"></div>
           </div>
 
         </div>
@@ -443,22 +894,67 @@ class CreateEvent extends React.Component {
     }
 
     componentDidMount() {
-      this.refs.searchButton.onclick = () => {
-        //console.log(this.refs.searchInput.value)
-        userService.getUserSearch(this.refs.searchInput.value, result => {
-          //console.log(result)
-          let userList = [];
-          let y = 0;
-          for(let user of result) {
-            userList.push(" Fornavn: "+result[y].Fornavn+" Tlf: "+result[y].Tlf);
-            y++
+      let signedInUser = userService.getSignedInUser()
+      let searchUserList = document.createElement('div')
+      if(signedInUser.Administrator){
+        this.refs.searchButton.onclick = () => {
+
+          while (searchUserList.firstChild) {
+            searchUserList.removeChild(searchUserList.firstChild);
+          }
+          userService.getUserSearch(this.refs.searchInput.value, result => {
+
+            let y = 0;
+            for(let user of result) {
+              let userName = document.createElement('ul')
+              userName.innerText = "Fornavn: "+result[y].Fornavn
+
+
+              let userTlf = document.createElement('li')
+              userTlf.innerText = "Tlf: "+result[y].Tlf
+
+              let userId = document.createElement('li')
+              userId.innerText = "Medlemsnr: "+result[y].Medlemsnr
+
+
+              userName.appendChild(userTlf)
+              userName.appendChild(userId)
+              searchUserList.appendChild(userName)
+              y++
+            }
+
+            this.refs.searchUserDiv.appendChild(searchUserList)
+          })
+        }
+      }
+      else{
+        this.refs.searchButton.onclick = () => {
+
+          while (searchUserList.firstChild) {
+            searchUserList.removeChild(searchUserList.firstChild);
           }
 
-          this.refs.personList.innerText = userList
-        })
+          userService.getUserSearch(this.refs.searchInput.value, result => {
+            let searchUserList = document.createElement('div')
+            let y = 0;
+            for(let user of result) {
+              let userName = document.createElement('ul')
+              userName.innerText = "Fornavn: "+result[y].Fornavn
+
+              let userTlf = document.createElement('li')
+              userTlf.innerText = "Tlf: "+result[y].Tlf
+
+              userName.appendChild(userTlf)
+              searchUserList.appendChild(userName)
+              y++
+            }
+
+            this.refs.searchUserDiv.appendChild(searchUserList)
+          })
+        }
       }
-    }
   }
+}
 
 //#########################################################################
 
@@ -475,6 +971,8 @@ ReactDOM.render((
         <Route exact path='/events' component={Events} />
         <Route exact path='/kalender' component={Kalender} />
         <Route exact path='/createevent' component={CreateEvent} />
+        <Route exact path='/eventDetails' component={EventDetails} />
+
         <Route exact path='/search' component={Search} />
       </Switch>
     </div>
