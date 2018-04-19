@@ -555,15 +555,15 @@ class CreateEvent extends React.Component {
             </input>
             <br></br>
             <label><b>Oppmøtetidspunkt</b></label>
-            <input type="number" ref="ArrOppmotetid" placeholder="Tid" name="ArrOppmotetid" required>
+            <input type="time" ref="ArrOppmotetid" placeholder="Tid" name="ArrOppmotetid" required>
             </input>
             <br></br>
             <label><b>Starttidspunkt</b></label>
-            <input type="text" ref="ArrStart" name="ArrStart">
+            <input type="time" ref="ArrStart" name="ArrStart">
             </input>
             <br></br>
             <label><b>Sluttidspunkt</b></label>
-            <input type="text" ref="ArrSlutt" placeholder="Slutt" name="ArrSlutt" required>
+            <input type="time" ref="ArrSlutt" placeholder="Slutt" name="ArrSlutt" required>
             </input>
             <br></br>
             <label><b>Poststed</b></label>
@@ -600,7 +600,7 @@ class CreateEvent extends React.Component {
 
 
             <div ref="arrRollListe">
-            Sanitet: <input type="number" ref="Sanitet" disabled="true" placeholder="2" id="rollerNyArr" min="2"></input>
+            Sanitet: <input type="number" ref="Sanitet" disabled="true" placeholder="2" id="rollerNyArr"></input>
             Ambulansemedhjelper:  <input type="number" ref="Ambulansemedhjelper" disabled="true" placeholder="0" id="rollerNyArr1"></input>
             Ambulansesjåfor: <input type="number" ref="Ambulansesjåfor" disabled="true" placeholder="0" id="rollerNyArr2"></input>
             3 MannAmbluanse:  <input type="number" ref="3MannAmbluanse" disabled="true" placeholder="0" id="rollerNyArr3"></input>
@@ -636,6 +636,7 @@ class CreateEvent extends React.Component {
       this.refs.redigerRoller.onclick = () => {
         var testtt = document.getElementById("rollerNyArr")
         if (!testtt.disabled) {
+      //    document.getElementsByClassName("rollerNyArr").disabled = true;
           document.getElementById("rollerNyArr").disabled = true;
           document.getElementById("rollerNyArr1").disabled = true;
           document.getElementById("rollerNyArr2").disabled = true;
@@ -652,7 +653,8 @@ class CreateEvent extends React.Component {
           document.getElementById("rollerNyArr13").disabled = true;
           document.getElementById("rollerNyArr14").disabled = true;
         }else {
-        document.getElementById("rollerNyArr").disabled = false;
+        //  document.getElementsByClassName("rollerNyArr").disabled = false;
+       document.getElementById("rollerNyArr").disabled = false;
         document.getElementById("rollerNyArr1").disabled = false;
         document.getElementById("rollerNyArr2").disabled = false;
         document.getElementById("rollerNyArr3").disabled = false;
@@ -704,6 +706,7 @@ class CreateEvent extends React.Component {
       })*/
 }
     }
+    //////////////////MAL GENERERING//////////////////////////
     function oppdaterrolle(){
       console.log("HALO");
 
@@ -711,36 +714,89 @@ class CreateEvent extends React.Component {
       var folk = document.getElementById('antallFolk').value;
       var stedArra = document.getElementById("plassArr").selectedIndex;
       var z = "";
+      var Distriktsenor = 0;
+      var sanitet = 2;
+      var Scootersjofor = 0;
+      var Scootermedhjelper = 0;
+      var Scooterhjelper3 = 0;
+      var ATVforer = 0;
+      var Ambulansesjåfor = 0;
+      var Ambulansemedhjelper = 0;
+      var MannAmbluanse3 = 0;
+      var Batforer = 0;
+      var Bathjelper = 0;
+      var Batmannskap = 0;
 
-      if (stedArra == 0) {
-        var z = 1
-      } else if (stedArra == 1){
-        var z = 1.1
-      } else if (stedArra == 2){
-        var z = 1.2
-      } else if (stedArra == 3){
-        var z = 1.3
-      } else if (stedArra == 4){
-        var z = 1.4
+
+      if (typeArra == 0) {
+        z = 1.7
+      } else if (typeArra == 1){
+        z = 1.2
+      } else if (typeArra == 2){
+        z = 1
+      } else if (typeArra == 3){
+        Distriktsenor = 1
+        z = 5
+      } else {
+        z = 1
       }
 
-      if (folk > 200) {
-        if (typeArra == 0) {
+      if (folk > 200 && folk <= 400) {
+        sanitet = folk * 0.01 * z
+      }else if (folk < 200){
+       sanitet = 2 * z
 
-          var sanitet = folk * 0.01 * z
+     }else if (folk > 400 && folk <= 999) {
+       sanitet = folk * 0.002 * z
+       if (sanitet < 2) {
+        sanitet = 2
+       }
+     } else if (folk > 999 && folk <= 4000) {
+       sanitet = folk * 0.0015 * z
+       if (sanitet < 4) {
+        sanitet = 4
+       }
+     } else if (folk > 4000) {
+       sanitet = folk * 0.0004 *z
+       Ambulansesjåfor = 1;
+       Ambulansemedhjelper = 1;
+       MannAmbluanse3 = 1;
+       if (sanitet < 12) {
+        sanitet = 12
+       }
+     }
 
-        } else if (typeArra == 1) {
-          var sanitet = folk * 0.02 * z
+     if (stedArra == 0) {
 
 
-        }
+     } else if (stedArra == 1) {
 
-   }else {
-       var sanitet = 4 * z
+     } else if (stedArra == 2) {
+       Scootersjofor = 1;
+       Scootermedhjelper = 1;
+       Scooterhjelper3 = 1;
+     } else if (stedArra == 3) {
+       ATVforer = 1;
+     } else if (stedArra == 4) {
+       Batforer = 1;
+       Bathjelper = 1;
+       Batmannskap = 1;
+     } else{
 
- }
+     }
 console.log(sanitet);
- document.getElementById('rollerNyArr').innerText = sanitet;
+ document.getElementById('rollerNyArr').value = Math.round(sanitet);
+ document.getElementById('rollerNyArr12').value = Math.round(Distriktsenor);
+ document.getElementById('rollerNyArr8').value = Math.round(Scootersjofor);
+ document.getElementById('rollerNyArr9').value = Math.round(Scootermedhjelper);
+ document.getElementById('rollerNyArr10').value = Math.round(Scooterhjelper3);
+ document.getElementById('rollerNyArr11').value = Math.round(ATVforer);
+ document.getElementById('rollerNyArr1').value = Math.round(Ambulansemedhjelper);
+ document.getElementById('rollerNyArr2').value = Math.round(Ambulansesjåfor);
+ document.getElementById('rollerNyArr3').value = Math.round(MannAmbluanse3);
+ document.getElementById('rollerNyArr4').value = Math.round(Batforer);
+ document.getElementById('rollerNyArr5').value = Math.round(Bathjelper);
+ document.getElementById('rollerNyArr6').value = Math.round(Batmannskap);
 }
 
   //#################Kalender##################################################
