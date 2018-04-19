@@ -710,55 +710,38 @@ class CreateEvent extends React.Component {
       var typeArra = document.getElementById('test234').selectedIndex;
       var folk = document.getElementById('antallFolk').value;
       var stedArra = document.getElementById("plassArr").selectedIndex;
-      var z =
+      var z = "";
 
-      if (arrSted == 0) {
+      if (stedArra == 0) {
         var z = 1
-      } else if (arrSted == 1){
+      } else if (stedArra == 1){
         var z = 1.1
-      } else if (arrSted == 2){
+      } else if (stedArra == 2){
         var z = 1.2
-      } else if (arrSted == 3){
+      } else if (stedArra == 3){
         var z = 1.3
-      } else if (arrSted == 4){
-        var z = 1.1
+      } else if (stedArra == 4){
+        var z = 1.4
       }
 
+      if (folk > 200) {
+        if (typeArra == 0) {
+
+          var sanitet = folk * 0.01 * z
+
+        } else if (typeArra == 1) {
+          var sanitet = folk * 0.02 * z
 
 
+        }
 
+   }else {
+       var sanitet = 4 * z
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    }
+ }
+console.log(sanitet);
+ document.getElementById('rollerNyArr').innerText = sanitet;
+}
 
   //#################Kalender##################################################
 
