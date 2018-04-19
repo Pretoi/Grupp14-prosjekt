@@ -751,12 +751,12 @@ class CreateEvent extends React.Component {
        if (sanitet < 2) {
         sanitet = 2
        }
-     } else if (folk > 999 && folk <= 4000) {
+     } else if (folk > 999 && folk <= 5000) {
        sanitet = folk * 0.0015 * z
        if (sanitet < 4) {
         sanitet = 4
        }
-     } else if (folk > 4000) {
+     } else if (folk > 5000) {
        sanitet = folk * 0.0004 *z
        Ambulansesjåfor = 1;
        Ambulansemedhjelper = 1;
