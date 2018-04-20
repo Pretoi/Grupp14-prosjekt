@@ -97,12 +97,29 @@ class UserService {
     connection.query('SELECT * FROM Rolle WHERE Medlemsnr = ?', [id], (error, result) => {
       if(error) throw error
       if(result.length<1) {
-        console.log('Error 209: Could not get user-expertise');
-        return;
+        console.log('Error 209: Could not Rolle from selected Medlemsnr')
+        return
       }
+       callback(result)
+    })
+  }
 
-       callback(result);
-    });
+  getExpertiseID(K_navn, callback){
+    connection.query('SELECT * FROM Kompetanse WHERE K_navn = ?', [K_navn], (error, result) => {
+      if(error) throw error
+      if(result.length<1){
+        console.log('Error 210: Could not find Kompetanse with current ID')
+        return
+      }
+      callback(result)
+    })
+  }
+
+  createUserExpertise(Medlemsnr, Kompetanse_ID, Rollenavn, callback){
+    connection.query('INSERT INTO Rolle (Medlemsnr, Kompetanse_ID, Rollenavn) values (?, ?, ?)', [Medlemsnr, Kompetanse_ID, Rollenavn], (error, result) => {
+      if(error) throw error
+       callback()
+    })
   }
 
   getUserSearch(input, callback){
@@ -132,7 +149,7 @@ class EventService {
   }
 
   getEvents(input, callback) {
-    connection.query('SELECT * FROM Arrangement ORDER BY Arrnavn', [], (error, result) => {
+    connection.query('SELECT * FROM Arrangement ORDER BY Dato DESC', [], (error, result) => {
       if(error) throw error;
 
       callback(result);
@@ -147,17 +164,25 @@ class EventService {
     })
   }
 
-  createEvent(Arrangement_ID, Arrnavn, Beskrivelse, Oppmotested,
+  createEvent(Arrangement_ID, Arrnavn, Dato, Beskrivelse, Oppmotested,
     Oppmotetidsspunkt, Starttidspunkt, Sluttidspunkt, Poststed, Postnr, callback) {
-    connection.query('INSERT INTO Arrangement (Arrangement_ID, Arrnavn, Beskrivelse, Oppmotested, 	Oppmotetidsspunkt, Starttidspunkt, Sluttidspunkt, Poststed, Postnr) values (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-     [Arrangement_ID, Arrnavn, Beskrivelse, Oppmotested, Oppmotetidsspunkt, Starttidspunkt, Sluttidspunkt, Poststed, Postnr], (error, result) => {
+    connection.query('INSERT INTO Arrangement (Arrangement_ID, Arrnavn, Dato, Beskrivelse, Oppmotested, Oppmotetidsspunkt, Starttidspunkt, Sluttidspunkt, Poststed, Postnr) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+     [Arrangement_ID, Arrnavn, Dato, Beskrivelse, Oppmotested, Oppmotetidsspunkt, Starttidspunkt, Sluttidspunkt, Poststed, Postnr], (error, result) => {
       if (error) throw error;
       callback();
     })
   }
 
+  createEventRoles(Arr_rolleID, Arrangements_ID, Medlemsnr, Gitt_Rolle, callback) {
+    connection.query('INSERT INTO Arrangement_Rolle (Arr_RolleID, Arrangements_ID, Medlemsnr, Gitt_Rolle) values (?, ?, ? ,?)',
+    [Arr_rolleID, Arrangements_ID, Medlemsnr, Gitt_Rolle], (error, result) => {
+      if (error) throw error
+      callback()
+    })
+  }
+
   getEventRoles(Arrangements_ID, callback) {
-    connection.query('SELECT * FROM Arrangement_Rolle WHERE Arrangements_ID = ?', [Arrangements_ID], (error, result) => {
+    connection.query('SELECT * FROM Arrangement_Rolle WHERE Arrangements_ID = ? ORDER BY Gitt_Rolle', [Arrangements_ID], (error, result) => {
       if (error) throw error
       callback(result)
     })
