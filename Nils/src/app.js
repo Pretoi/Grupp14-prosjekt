@@ -254,7 +254,6 @@ componentDidMount() {
     })
 
     userService.getUserExpertise(signedInUser.Medlemsnr, (result) => {
-      console.log(result)
       let listItems = [];
       let x = 0;
       for(let expertise of result) {
@@ -521,6 +520,7 @@ class EventDetails extends React.Component{
         <div ref='arrInfoDiv'></div>
         <div ref='arrDatoDiv'></div>
         <div ref='arrLocationDiv'></div>
+        <div ref='arrOppmøteDiv'></div>
         <div ref='arrStartDiv'></div>
         <div ref='arrSluttDiv'></div>
         <div ref='arrPostnrDiv'></div>
@@ -541,8 +541,7 @@ class EventDetails extends React.Component{
       editEventBtn.innerText = "Rediger Arrangement"
       this.refs.adminBtnDiv.appendChild(editEventBtn)
       editEventBtn.onclick = function () {
-        console.log(currentArrID)
-        //sendToEditEvent(currentArrId)
+        history.push('/editEvent')
       }
     }
 
@@ -551,6 +550,7 @@ class EventDetails extends React.Component{
       this.refs.arrInfoDiv.innerText = result.Beskrivelse
       this.refs.arrDatoDiv.innerText = result.Dato
       this.refs.arrLocationDiv.innerText = result.Oppmotested
+      this.refs.arrOppmøteDiv.innerText = result.Oppmotetidsspunkt
       this.refs.arrStartDiv.innerText = result.Starttidspunkt
       this.refs.arrSluttDiv.innerText = result.Sluttidspunkt
       this.refs.arrPostnrDiv.innerText = result.Postnr
@@ -571,7 +571,6 @@ class EventDetails extends React.Component{
 
         roleElement.appendChild(medlemsnr)
         roleElement.appendChild(gitt_rolle)
-        console.log(roleElement)
         roleList.appendChild(roleElement)
         this.refs.eventRolesDIV.appendChild(roleList)
         x++
@@ -608,15 +607,15 @@ class CreateEvent extends React.Component {
             </input>
             <br></br>
             <label><b>Oppmøtetidspunkt</b></label>
-            <input type="number" ref="ArrOppmotetid" placeholder="Tid" name="ArrOppmotetid" required>
+            <input type="time" ref="ArrOppmotetid" placeholder="Tid" name="ArrOppmotetid" required>
             </input>
             <br></br>
             <label><b>Starttidspunkt</b></label>
-            <input type="number" ref="ArrStart" name="ArrStart">
+            <input type="time" ref="ArrStart" name="ArrStart">
             </input>
             <br></br>
             <label><b>Sluttidspunkt</b></label>
-            <input type="number" ref="ArrSlutt" placeholder="Slutt" name="ArrSlutt" required>
+            <input type="time" ref="ArrSlutt" placeholder="Slutt" name="ArrSlutt" required>
             </input>
             <br></br>
             <label><b>Poststed</b></label>
@@ -627,26 +626,44 @@ class CreateEvent extends React.Component {
             <input type="number" ref="ArrPostnr" placeholder="Skriv postnummer" name="ArrPostnr" required>
             </input>
             <br></br>
-            <label><b>Registrer antall roller på arrangementet:</b></label>
-            <br></br>
+            <label><b>Dette brukes til å generere vakt mal, hvis du vil lage en selv eller redigere trykket du på knappen på bunnen av siden</b></label>
+            <div>Type Arrangement:
+              <select name="typeArr" ref="rolleFordeling" id="arrType" onChange={() => {oppdaterrolle()}}>
+                  <option value="1">Festival</option>
+                  <option value="2">Idretts arrangement</option>
+                  <option value="3">Show</option>
+                  <option value="4">Kurs/Opplæring</option>
+                  <option value="5">Annet</option>
+              </select>
+            </div>
+            <div>Lokasjon:
+              <select name="plassArr" ref="rolleFordeling" id="arrLokasjon" onChange={() => {oppdaterrolle()}}>
+                  <option value="1">Storby</option>
+                  <option value="2">Tettsted</option>
+                  <option value="3">Fjell</option>
+                  <option value="4">Utmark</option>
+                  <option value="5">Kyst</option>
+                  <option value="6">Annet</option>
+              </select>
+            </div>
+            <label>Maks antall deltagere</label>
+            <input type="number" ref="rolleFordeling" id="antallFolk" onChange={() => {oppdaterrolle()}}></input>
 
-            <div ref="vaktmal"></div>
-
-            <div>Vaktleder</div><input ref="Vaktleder"></input>
-            <div>Sanitet</div><input ref="Sanitet"></input>
-            <div>Scootersjåfør</div><input ref="Scootersjåfør"></input>
-            <div>Tre mann scooter</div><input ref="Tremannscooter"></input>
-            <div>Ambulansemedhjelper</div><input ref="Ambulansemedhjelper"></input>
-            <div>Ambulansesjåfør</div><input ref="Ambulansesjåfør"></input>
-            <div>Tre mann ambulanse</div><input ref="Tremannambulanse"></input>
-            <div>Båtfører</div><input ref="Båtfører"></input>
-            <div>Båtmedhjelper</div><input ref="Båtmedhjelper"></input>
-            <div>Båtmannskap</div><input ref="Båtmannskap"></input>
-            <div>Scootermedhjelper</div><input ref="Scootermedhjelper"></input>
-            <div>ATVfører</div><input ref="ATVfører"></input>
-            <div>Distriktsensor</div><input ref="Distriktsensor"></input>
-            <div>Under opplæring</div><input ref="Underopplæring"></input>
-            <div>Markør</div><input ref="Markør"></input>
+            <div>Vaktleder</div><input ref="Vaktleder" id="Vaktleder" disabled="true"></input>
+            <div>Sanitet</div><input ref="Sanitet" id="Sanitet"></input>
+            <div>Scootersjåfør</div><input ref="Scootersjåfør" id="Scootersjåfør"></input>
+            <div>Tre mann scooter</div><input ref="Tremannscooter" id="Tremannscooter"></input>
+            <div>Ambulansemedhjelper</div><input ref="Ambulansemedhjelper" id="Ambulansemedhjelper"></input>
+            <div>Ambulansesjåfør</div><input ref="Ambulansesjåfør" id="Ambulansesjåfør"></input>
+            <div>Tre mann ambulanse</div><input ref="Tremannambulanse" id="Tremannambulanse"></input>
+            <div>Båtfører</div><input ref="Båtfører" id="Båtfører"></input>
+            <div>Båtmedhjelper</div><input ref="Båtmedhjelper" id="Båtmedhjelper"></input>
+            <div>Båtmannskap</div><input ref="Båtmannskap" id="Båtmannskap"></input>
+            <div>Scootermedhjelper</div><input ref="Scootermedhjelper" id="Scootermedhjelper"></input>
+            <div>ATVfører</div><input ref="ATVfører" id="ATVfører"></input>
+            <div>Distriktsensor</div><input ref="Distriktsensor" id="Distriktsensor"></input>
+            <div>Under opplæring</div><input ref="Underopplæring" id="Underopplæring"></input>
+            <div>Markør</div><input ref="Markør" id="Markør"></input>
             <button ref="signUpButton">Registrer nytt arrengement</button>
           </div>
 
@@ -654,6 +671,10 @@ class CreateEvent extends React.Component {
     }
 
     componentDidMount() {
+
+      this.refs.Vaktleder.value = 1
+
+      oppdaterrolle()
 
       this.refs.signUpButton.onclick = () => {
 
@@ -829,16 +850,189 @@ class CreateEvent extends React.Component {
 
       }
 
+
     }
+
+}
+
+function oppdaterrolle(){
+
+  let typeArra = document.getElementById('arrType').selectedIndex
+  let folk = document.getElementById('antallFolk').value
+  let stedArra = document.getElementById("arrLokasjon").selectedIndex
+  let z = ""
+  let Sanitet = 0
+  let Scootersjåfør = 0
+  let Tremannscooter = 0
+  let Ambulansemedhjelper = 0
+  let Ambulansesjåfør = 0
+  let Tremannambulanse = 0
+  let Båtfører = 0
+  let Båtmedhjelper = 0
+  let Båtmannskap = 0
+  let Scootermedhjelper = 0
+  let ATVfører = 0
+  let Distriktsensor = 0
+  let Underopplæring = 0
+  let Markør = 0
+
+
+  if (typeArra == 0) {
+    z = 1.7
+  } else if (typeArra == 1){
+    z = 1.2
+  } else if (typeArra == 2){
+    z = 1
+  } else if (typeArra == 3){
+    Distriktsensor = 1
+    z = 5
+  } else {
+    z = 1
   }
+
+  if (folk > 200 && folk <= 400) {
+    Sanitet = folk * 0.01 * z
+  }else if (folk < 200){
+   Sanitet = 2 * z
+
+ }else if (folk > 400 && folk <= 999) {
+   Sanitet = folk * 0.002 * z
+   if (Sanitet < 2) {
+    Sanitet = 2
+   }
+ } else if (folk > 999 && folk <= 5000) {
+   Sanitet = folk * 0.0015 * z
+   if (Sanitet < 4) {
+    Sanitet = 4
+   }
+ } else if (folk > 5000) {
+   Sanitet = folk * 0.0004 *z
+   Ambulansesjåfør = 1;
+   Ambulansemedhjelper = 1;
+   Tremannambulanse = 1;
+   if (Sanitet < 12) {
+    Sanitet = 12
+   }
+ }
+
+ if (stedArra == 0) {
+
+
+ } else if (stedArra == 1) {
+
+ } else if (stedArra == 2) {
+   Scootersjåfør = 1;
+   Scootermedhjelper = 1;
+   Tremannscooter = 1;
+ } else if (stedArra == 3) {
+   ATVfører = 1;
+ } else if (stedArra == 4) {
+   Båtfører = 1;
+   Båtmedhjelper = 1;
+   Båtmannskap = 1;
+ } else{
+
+ }
+
+ document.getElementById('Sanitet').value = Math.round(Sanitet)
+ document.getElementById('Scootersjåfør').value = Math.round(Scootersjåfør)
+ document.getElementById('Tremannscooter').value = Math.round(Tremannscooter);
+ document.getElementById('Ambulansemedhjelper').value = Math.round(Ambulansemedhjelper);
+ document.getElementById('Ambulansesjåfør').value = Math.round(Ambulansesjåfør);
+ document.getElementById('Tremannambulanse').value = Math.round(Tremannambulanse);
+ document.getElementById('Båtfører').value = Math.round(Båtfører);
+ document.getElementById('Båtmedhjelper').value = Math.round(Båtmedhjelper);
+ document.getElementById('Båtmannskap').value = Math.round(Båtmannskap);
+ document.getElementById('Scootermedhjelper').value = Math.round(Scootermedhjelper);
+ document.getElementById('ATVfører').value = Math.round(ATVfører);
+ document.getElementById('Distriktsensor').value = Math.round(Distriktsensor);
+ document.getElementById('Underopplæring').value = Math.round(Underopplæring);
+ document.getElementById('Markør').value = Math.round(Markør);
+
+}
+
+
+
+
 //#################EDIT EVENT##################################################
 class EditEvent extends React.Component {
-  render(){
-    return(
-      <div></div>
+  render() {
+    return (
+        <div id="content">
+
+          <label><b>Arrengement Navn</b></label>
+          <input type="text" ref="arrNavnDiv" placeholder="Arrengement Navn" name="ArrNavn" required>
+          </input>
+          <br></br>
+          <label><b>Dato</b></label>
+          <input type="date" ref="arrDatoDiv" placeholder="Arrengement Dato" name="ArrDato" required>
+          </input>
+          <br></br>
+          <label><b>Beskrivelse</b></label>
+          <textarea ref="arrInfoDiv" placeholder="Arrengement beskrivelse" name="ArrBeskrivelse" required>
+          </textarea>
+          <br></br>
+          <label><b>Oppmøtested</b></label>
+          <input type="text" ref="arrLocationDiv" placeholder="Sted" name="ArrOppmotested" required>
+          </input>
+          <br></br>
+          <label><b>Oppmøtetidspunkt</b></label>
+          <input type="time" ref="ArrOppmotetid" placeholder="Tid" name="ArrOppmotetid" required>
+          </input>
+          <br></br>
+          <label><b>Starttidspunkt</b></label>
+          <input type="time" ref="arrStartDiv" name="ArrStart">
+          </input>
+          <br></br>
+          <label><b>Sluttidspunkt</b></label>
+          <input type="time" ref="arrSluttDiv" placeholder="Slutt" name="ArrSlutt" required>
+          </input>
+          <br></br>
+          <label><b>Poststed</b></label>
+          <input type="text" ref="arrPoststedDiv" placeholder="Skriv poststed" name="ArrPoststed" required>
+          </input>
+          <br></br>
+          <label><b>Postnummer</b></label>
+          <input type="number" ref="arrPostnrDiv" placeholder="Skriv postnummer" name="ArrPostnr" required>
+          </input>
+          <br></br>
+
+          <div>Vaktleder</div><input ref="Vaktleder" id="Vaktleder" disabled="true"></input>
+          <div>Sanitet</div><input ref="Sanitet" id="Sanitet"></input>
+          <div>Scootersjåfør</div><input ref="Scootersjåfør" id="Scootersjåfør"></input>
+          <div>Tre mann scooter</div><input ref="Tremannscooter" id="Tremannscooter"></input>
+          <div>Ambulansemedhjelper</div><input ref="Ambulansemedhjelper" id="Ambulansemedhjelper"></input>
+          <div>Ambulansesjåfør</div><input ref="Ambulansesjåfør" id="Ambulansesjåfør"></input>
+          <div>Tre mann ambulanse</div><input ref="Tremannambulanse" id="Tremannambulanse"></input>
+          <div>Båtfører</div><input ref="Båtfører" id="Båtfører"></input>
+          <div>Båtmedhjelper</div><input ref="Båtmedhjelper" id="Båtmedhjelper"></input>
+          <div>Båtmannskap</div><input ref="Båtmannskap" id="Båtmannskap"></input>
+          <div>Scootermedhjelper</div><input ref="Scootermedhjelper" id="Scootermedhjelper"></input>
+          <div>ATVfører</div><input ref="ATVfører" id="ATVfører"></input>
+          <div>Distriktsensor</div><input ref="Distriktsensor" id="Distriktsensor"></input>
+          <div>Under opplæring</div><input ref="Underopplæring" id="Underopplæring"></input>
+          <div>Markør</div><input ref="Markør" id="Markør"></input>
+          <button ref="signUpButton">Registrer nytt arrengement</button>
+        </div>
+
     )
   }
   componentDidMount(){
+    let currentArrID = localStorage.getItem("current_arrID")
+    console.log("ArrID:"+currentArrID)
+
+    eventService.getEvent(currentArrID, (result) => {
+      console.log(result.Arrnavn)
+      this.refs.arrNavnDiv.value = result.Arrnavn
+      this.refs.arrInfoDiv.value = result.Beskrivelse
+      this.refs.arrDatoDiv.value = 0+result.Dato.getDate()+','+0+result.Dato.getMonth()+','+result.Dato.getFullYear()
+      this.refs.arrLocationDiv.value = result.Oppmotested
+      this.refs.arrStartDiv.value = result.Starttidspunkt
+      this.refs.arrSluttDiv.value = result.Sluttidspunkt
+      this.refs.arrPostnrDiv.value = result.Postnr
+      this.refs.arrPoststedDiv.value = result.Poststed
+
+    })
 
   }
 }
@@ -853,8 +1047,9 @@ class Kalender extends React.Component {
 
     return(
       <div>
-
-        <div ref="calendar" />
+        <div id="content">
+          <div ref="calendar" />
+        </div>
         <div>
             <div id="periodList" ref="periodeResult"></div>
 
@@ -883,10 +1078,7 @@ class Kalender extends React.Component {
 
       let settings = {};
       let events = [
-        /*{'Date': new Date(2018, 3, 4), 'Title': 'Barnas dag 2018', 'Link': ''},
-        {'Date': new Date(2018, 3, 7), 'Title': 'Konsert med M&M'},
-        {'Date': new Date(2018, 4-1, 18), 'Title': 'New Garfield movie comes out!', 'Link': 'https://garfield.com'},
-        {'Date': new Date(2018, 4, 27), 'Title': '25 year anniversary', 'Link': 'https://www.google.com.au/#q=anniversary+gifts'},*/
+        /*{'Date': new Date(2018, 3, 4), 'Title': 'Barnas dag 2018', 'Link': ''},*/
       ];
 
 
@@ -911,14 +1103,17 @@ class Kalender extends React.Component {
 
       }
       for (let i in eventDateCalendarList){
-        console.log("Datoliste:"+eventDateCalendarList[i])
-        events.push({'Date': new Date(eventDateCalendarList[i]), 'Title': tittelListe[i], 'Link': ''})
+        //console.log("Datoliste:"+eventDateCalendarList[i])
+        events.push({'Date': new Date(eventDateCalendarList[i]), 'Title': tittelListe[i], 'Link': function(){history.push('/search')}})
       }
       calendar(this.refs.calendar, events, settings)
     })
 
+    function sendToEventDetails(arrnavn) {
+      console.log("Hey")
 
-    console.log(userService.getSignedInUser());
+    }
+
 
     //HENTER BRUKERENS PERIODER
     calendarService.getUserPeriod(signedInUser.Medlemsnr, (result) => {
@@ -1056,6 +1251,7 @@ ReactDOM.render((
         <Route exact path='/events' component={Events} />
         <Route exact path='/kalender' component={Kalender} />
         <Route exact path='/createevent' component={CreateEvent} />
+        <Route exact path='/editEvent' component={EditEvent} />
         <Route exact path='/eventDetails' component={EventDetails} />
         <Route exact path='/search' component={Search} />
       </Switch>
