@@ -162,6 +162,12 @@ class EventService {
       callback(result)
     })
   }
+  getEventRolesLedig(input, callback) {
+    connection.query('SELECT * FROM Arrangement_Rolle WHERE Arrangements_ID = ? AND Medlemsnr IS NULL' , [input], (error, result) => {
+      if (error) throw error
+      callback(result)
+    })
+  }
 
 }
 

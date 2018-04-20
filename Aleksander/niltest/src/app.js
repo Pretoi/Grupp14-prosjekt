@@ -451,10 +451,24 @@ class EventDetails extends React.Component{
         <div ref='arrSluttDiv'></div>
         <div ref='arrPostnrDiv'></div>
         <div ref='arrPoststedDiv'></div>
-        <div className="arrDetaljerRolleListe">
-          <div>Sanitet:<span ref="arrDetaljerRolleLedigSanitet"></span></div>
-          <div>Ambulansesjåfør:<span ref="arrDetaljerRolleLedigAmbulanse"></span></div>
-        </div>
+
+        <ul id="ledigeRollerUL"></ul>
+
+
+
+
+        <button id="myBtn">Open Modal</button>
+
+
+            <div id="myModal" className="modal">
+
+
+              <div className="modal-content">
+                <span className="close">&times;</span>
+                <div ref="testidid" id="testidmodal"></div>
+              </div>
+
+            </div>
       </div>
 
     /*  <div className="arrDetaljerRolleListe">
@@ -476,58 +490,80 @@ class EventDetails extends React.Component{
       this.refs.arrPoststedDiv.innerText = result.Poststed
 
     })
-    eventService.getEventRoles(currentArrID, (result) => {
+    eventService.getEventRolesLedig(currentArrID, (result) => {
        console.log(result)
 
-        let ledigeSanitet = [];
-        let ledigeAbulanse = [];
 
 
         for(let Arrangement_Rolle of result) {
-        var Medlemsnr = Arrangement_Rolle.Medlemsnr
-        var Gitt_Rolle = Arrangement_Rolle.Gitt_Rolle
+    //   var Medlemsnr = Arrangement_Rolle.Medlemsnr
+       var Gitt_Rolle = Arrangement_Rolle.Gitt_Rolle
+        var rolleID = Arrangement_Rolle.Arr_RolleID
+      //  console.log(result.length);
 
-      //  console.log(Medlemsnr);
-
-        if (!Medlemsnr) {
-          //console.log("LOOL");
-          if (Gitt_Rolle == "Sanitet") {
-          //  this.refs.arrDetaljerRolleLedigSanitet.innerText = result.arrDetaljerRolleLedigSanitet
-            ledigeSanitet.push(Arrangement_Rolle)
-
-        //    console.log(ledigeSanitet[1])
-          } else if (Gitt_Rolle == "Ambulansesjåfør"){
-            ledigeAbulanse.push(Arrangement_Rolle)
-          //  this.refs.arrDetaljerRolleLedigAmbulanse.innerText = result.arrDetaljerRolleLedigAmbulanse
-          }
+       console.log(Gitt_Rolle);
+       console.log(rolleID);
+       console.log(Arrangement_Rolle);
 
 
-
-      //  this.refs.arrDetaljerRolleLedig.innerText = ledigePlasser
-        //  console.log(ledigePlasser);
-        /*}else {
-        //  opptattePlasser.push(Arrangement_Rolle)
-          //  console.log("NICE")
-        };*/
-      }
+      // for(let x = 0; x < result.length; x++) {
+    let a = document.createElement('a');
+    a.className = "rolle"
+  //  a.href = '#/personDetailsPage/' + personsIndex;
+    a.textContent = Gitt_Rolle;
+    let openlist = document.createElement('button');
+    openlist.setAttribute ("id", rolleID)
+    openlist.setAttribute ("classname", "myModal")
+    openlist.onclick = function () {
+      fjerndenne(Arrangement_Rolle);
     }
-    //  console.log(ledigeSanitet[0,1]);
+  //  openlist.setAttribute ("onclick", "fjerndenne()")
+    openlist.innerHTML = 'Oppdater';
+    let li = document.createElement('li');
+    li.appendChild(a);
+    li.appendChild(openlist);
 
-      for (var i = 0; i < ledigeSanitet.length; i++) {
-    this.refs.arrDetaljerRolleLedigSanitet.innerText= ledigeSanitet[i].Arr_RolleID
 
+
+    ledigeRollerUL.appendChild(li);
+
+
+
+  //}
+
+    }
+
+
+
+        var modal = document.getElementById('myModal');
+
+        // Get the button that opens the modal
+        let btn = document.getElementById("myBtn");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks the button, open the modal
+       function fjerndenne(Arrangement_Rolle){
+      //  btn.onclick = function() {
+            modal.style.display = "block";
+            console.log(Arrangement_Rolle.Gitt_Rolle);
+            document.getElementById('testidmodal').innerText = Arrangement_Rolle.Gitt_Rolle;
 
       }
-      console.log(ledigeSanitet)
-        /*
-        for(let role of result) {
-          myArrList.push(result[i].Gitt_Rolle)
-          i++
-        }
+      // When the user clicks on <span> (x), close the modal
+      span.onclick = function() {
+          modal.style.display = "none";
+      }
 
-        this.refs.arrDetaljerRolleSanitet.innerText = myArrList*/
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event) {
+          if (event.target == modal) {
+              modal.style.display = "none";
+          }
+      }
+    })
 
-      })
   }
 }
 
