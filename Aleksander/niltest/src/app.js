@@ -564,25 +564,7 @@ class EventDetails extends React.Component{
             //  console.log(Ledig_pers.komp)
             if (Arrangement_Rolle.Gitt_Rolle == "Sanitet") {
               if (Ledig_pers.komp == "Sanitet") {
-                let b = document.createElement('b');
-                b.className = "rollePersoner"
-              //  a.href = '#/personDetailsPage/' + personsIndex;
-                b.textContent = ledigNavn;
-                let VelgPerson = document.createElement('button');
-                VelgPerson.setAttribute ("id", PersRolleID)
-
-              /*  VelgPerson.onclick = function () {
-                  fjerndenne(Arrangement_Rolle);
-                }*/
-              //  openlist.setAttribute ("onclick", "fjerndenne()")
-                VelgPerson.innerHTML = 'Velg';
-                let li = document.createElement('li');
-                li.appendChild(b);
-                li.appendChild(VelgPerson);
-
-
-
-                ledigePersonerUL.appendChild(li);
+                OppdaterLedigeListe()
                 console.log(Ledig_pers.navn);
               }
             }else {
@@ -590,6 +572,30 @@ class EventDetails extends React.Component{
 
 
                }
+             }
+
+
+             function OppdaterLedigeListe() {
+               let b = document.createElement('b');
+               b.className = "rollePersoner"
+             //  a.href = '#/personDetailsPage/' + personsIndex;
+               b.textContent = ledigNavn;
+               let VelgPerson = document.createElement('button');
+               VelgPerson.setAttribute ("id", PersRolleID)
+
+               VelgPerson.onclick = function () {
+                 fjerndenne(Arrangement_Rolle);
+               }
+             //  openlist.setAttribute ("onclick", "fjerndenne()")
+               VelgPerson.innerHTML = 'Velg';
+               let li = document.createElement('li');
+               li.appendChild(b);
+               li.appendChild(VelgPerson);
+
+
+
+               ledigePersonerUL.appendChild(li);
+
              }
            });
 
