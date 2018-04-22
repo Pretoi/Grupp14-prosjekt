@@ -168,8 +168,16 @@ class EventService {
       callback(result)
     })
   }
+  getUserInfo1(nada, callback) {
+    connection.query('SELECT Rolle.Rollenavn AS komp, Bruker.Fornavn AS navn, Bruker.Medlemsnr FROM Rolle JOIN Bruker ON Rolle.Medlemsnr = Bruker.Medlemsnr', [], (error, result) => {
+      if (error) throw error
 
-}
+      //console.log("error");
+      callback(result)
+      });
+    }
+
+};
 
 class CalendarService{
 

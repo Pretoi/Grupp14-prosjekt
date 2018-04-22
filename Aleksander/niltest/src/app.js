@@ -466,6 +466,7 @@ class EventDetails extends React.Component{
               <div className="modal-content">
                 <span className="close">&times;</span>
                 <div ref="testidid" id="testidmodal"></div>
+                <ul id="ledigePersonerUL"></ul>
               </div>
 
             </div>
@@ -545,10 +546,52 @@ class EventDetails extends React.Component{
 
         // When the user clicks the button, open the modal
        function fjerndenne(Arrangement_Rolle){
+         while (ledigePersonerUL.firstChild) {
+           ledigePersonerUL.removeChild(ledigePersonerUL.firstChild);
+         }
       //  btn.onclick = function() {
             modal.style.display = "block";
-            console.log(Arrangement_Rolle.Gitt_Rolle);
+        //    console.log(Arrangement_Rolle.Gitt_Rolle);
             document.getElementById('testidmodal').innerText = Arrangement_Rolle.Gitt_Rolle;
+          //  getUserInfo1
+          eventService.getUserInfo1("null", result => {
+             console.log(result)
+          console.log(Arrangement_Rolle.Gitt_Rolle);
+            for(let Ledig_pers of result) {
+              var ledigNavn = Ledig_pers.navn
+              var PersRolleID = Ledig_pers.Medlemsnr
+
+            //  console.log(Ledig_pers.komp)
+            if (Arrangement_Rolle.Gitt_Rolle == "Sanitet") {
+              if (Ledig_pers.komp == "Sanitet") {
+                let b = document.createElement('b');
+                b.className = "rollePersoner"
+              //  a.href = '#/personDetailsPage/' + personsIndex;
+                b.textContent = ledigNavn;
+                let VelgPerson = document.createElement('button');
+                VelgPerson.setAttribute ("id", PersRolleID)
+
+              /*  VelgPerson.onclick = function () {
+                  fjerndenne(Arrangement_Rolle);
+                }*/
+              //  openlist.setAttribute ("onclick", "fjerndenne()")
+                VelgPerson.innerHTML = 'Velg';
+                let li = document.createElement('li');
+                li.appendChild(b);
+                li.appendChild(VelgPerson);
+
+
+
+                ledigePersonerUL.appendChild(li);
+                console.log(Ledig_pers.navn);
+              }
+            }else {
+              console.log("LKOSKDO");
+
+
+               }
+             }
+           });
 
       }
       // When the user clicks on <span> (x), close the modal
