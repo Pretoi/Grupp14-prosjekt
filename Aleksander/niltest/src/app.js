@@ -500,6 +500,7 @@ class EventDetails extends React.Component{
     //   var Medlemsnr = Arrangement_Rolle.Medlemsnr
        var Gitt_Rolle = Arrangement_Rolle.Gitt_Rolle
         var rolleID = Arrangement_Rolle.Arr_RolleID
+
       //  console.log(result.length);
 
        console.log(Gitt_Rolle);
@@ -546,6 +547,7 @@ class EventDetails extends React.Component{
 
         // When the user clicks the button, open the modal
        function fjerndenne(Arrangement_Rolle){
+         console.log(Arrangement_Rolle.Arr_RolleID);
          while (ledigePersonerUL.firstChild) {
            ledigePersonerUL.removeChild(ledigePersonerUL.firstChild);
          }
@@ -559,41 +561,108 @@ class EventDetails extends React.Component{
           console.log(Arrangement_Rolle.Gitt_Rolle);
             for(let Ledig_pers of result) {
               var ledigNavn = Ledig_pers.navn
+              var ledigEtterNavn = Ledig_pers.Etternavn
               var PersRolleID = Ledig_pers.Medlemsnr
 
             //  console.log(Ledig_pers.komp)
-            if (Arrangement_Rolle.Gitt_Rolle == "Sanitet") {
-              if (Ledig_pers.komp == "Sanitet") {
-                let b = document.createElement('b');
-                b.className = "rollePersoner"
-              //  a.href = '#/personDetailsPage/' + personsIndex;
-                b.textContent = ledigNavn;
-                let VelgPerson = document.createElement('button');
-                VelgPerson.setAttribute ("id", PersRolleID)
-
-              /*  VelgPerson.onclick = function () {
-                  fjerndenne(Arrangement_Rolle);
-                }*/
-              //  openlist.setAttribute ("onclick", "fjerndenne()")
-                VelgPerson.innerHTML = 'Velg';
-                let li = document.createElement('li');
-                li.appendChild(b);
-                li.appendChild(VelgPerson);
-
-
-
-                ledigePersonerUL.appendChild(li);
+            if (Arrangement_Rolle.Gitt_Rolle == "Sanitet" && Ledig_pers.komp == "Hjelpekorpsprøve") {
+            //  if (Ledig_pers.komp == "Sanitet") {
+                ledigPersonListe()
                 console.log(Ledig_pers.navn);
-              }
-            }else {
-              console.log("LKOSKDO");
+            //  }
+          }else if (Arrangement_Rolle.Gitt_Rolle == "Ambulansesjåfør" && Ledig_pers.komp == "Førerkort 160 utrykningskjøring"){
+
+                ledigPersonListe()
 
 
+          }else if (Arrangement_Rolle.Gitt_Rolle == "Ambulansemedhjelper" && Ledig_pers.komp == "Førerkort 160 utrykningskjøring"){
+                    ledigPersonListe()
+                   console.log("Ambulansemedhjelper");
+
+
+          }else if (Arrangement_Rolle.Gitt_Rolle == "3-mann ambulanse" && Ledig_pers.komp == "Førerkort 160 utrykningskjøring"){
+                    ledigPersonListe()
+                    console.log("3-mann ambulanse");
+
+
+          }else if (Arrangement_Rolle.Gitt_Rolle == "Scootersjåfør" && Ledig_pers.komp == "Kvalifisert kurs søk og redning vinter"){
+                    ledigPersonListe()
+                    console.log("scootersjofor");
+
+      }else if (Arrangement_Rolle.Gitt_Rolle == "Scootermedhjelper" && Ledig_pers.komp == "Kvalifisert kurs søk og redning vinter"){
+                            ledigPersonListe()
+                            console.log("scootersjofor");
+
+
+        }else if (Arrangement_Rolle.Gitt_Rolle == "3-mann scooter" && Ledig_pers.komp == "Kvalifisert kurs søk og redning vinter"){
+                                    ledigPersonListe()
+                                    console.log("scootersjofor");
+
+
+
+          }else if (Arrangement_Rolle.Gitt_Rolle == "Under opplæring"){
+                    ledigPersonListe()
+                  console.log("LKOSKDO");
+
+
+          }else if (Arrangement_Rolle.Gitt_Rolle == "Båtfører" && Ledig_pers.komp == "Maritimt VHF Sertifikat"){
+                    ledigPersonListe()
+                  console.log("LKOSKDO");
+
+
+          }else if (Arrangement_Rolle.Gitt_Rolle == "Båtmannskap" && Ledig_pers.komp == "Kvalifisert sjøredningskurs"){
+                    ledigPersonListe()
+                                            console.log("LKOSKDO");
+
+
+          }else if (Arrangement_Rolle.Gitt_Rolle == "Båtmedhjelper" && Ledig_pers.komp == "Kvalifisert sjøredningskurs"){
+                      ledigPersonListe()
+                                                 console.log("LKOSKDO");
+
+
+        }else if (Arrangement_Rolle.Gitt_Rolle == "ATV-fører" && Ledig_pers.komp == "Kvalifisert ATV kurs"){
+                                ledigPersonListe()
+                                             console.log("LKOSKDO");
+        }else if (Arrangement_Rolle.Gitt_Rolle == "Distriktsensor" && Ledig_pers.komp == "Distriktsensorkurs"){
+                                 ledigPersonListe()
+                                  console.log("LKOSKDO");
+
+        }else if (Arrangement_Rolle.Gitt_Rolle == "Markør"){
+                   ledigPersonListe()
+                            console.log("LKOSKDO");
+
+                                                        }
+
+
+             function ledigPersonListe() {
+
+               let b = document.createElement('b');
+               b.className = "rollePersoner"
+             //  a.href = '#/personDetailsPage/' + personsIndex;
+               b.textContent = ledigNavn + " " + ledigEtterNavn;
+               let VelgPerson = document.createElement('button');
+               VelgPerson.setAttribute ("id", PersRolleID)
+               VelgPerson.onclick = function () {
+                 leggTill();
                }
-             }
-           });
+             //  openlist.setAttribute ("onclick", "fjerndenne()")
+               VelgPerson.innerHTML = 'Velg';
+               let li = document.createElement('li');
+               li.appendChild(b);
+               li.appendChild(VelgPerson);
 
+               ledigePersonerUL.appendChild(li);
+             }
+
+           function leggTill() {
+
+             eventService.updateRolesList(Ledig_pers.Medlemsnr, Arrangement_Rolle.Arr_RolleID,  ()  => {});
+             console.log(Ledig_pers.Medlemsnr);
+           }
+         }
+           });
       }
+
       // When the user clicks on <span> (x), close the modal
       span.onclick = function() {
           modal.style.display = "none";

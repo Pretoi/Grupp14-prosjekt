@@ -169,11 +169,19 @@ class EventService {
     })
   }
   getUserInfo1(nada, callback) {
-    connection.query('SELECT Rolle.Rollenavn AS komp, Bruker.Fornavn AS navn, Bruker.Medlemsnr FROM Rolle JOIN Bruker ON Rolle.Medlemsnr = Bruker.Medlemsnr', [], (error, result) => {
+    connection.query('SELECT Rolle.Rollenavn AS komp, Bruker.Fornavn AS navn, Bruker.Medlemsnr, Bruker.Etternavn FROM Bruker JOIN Rolle ON Bruker.Medlemsnr = Rolle.Medlemsnr', [], (error, result) => {
       if (error) throw error
 
       //console.log("error");
       callback(result)
+      });
+    }
+    updateRolesList(Medlemsnr, Arr_RolleID, callback) {
+      connection.query('UPDATE Arrangement_Rolle SET Medlemsnr = ? WHERE Arr_RolleID = ?',
+       [Medlemsnr, Arr_RolleID], (error, result) => {
+         if(error) throw error;
+        callback();
+
       });
     }
 
