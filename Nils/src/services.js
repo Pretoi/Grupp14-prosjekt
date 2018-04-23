@@ -77,6 +77,13 @@ class UserService {
     });
   }
 
+  getAllMedlemsnr(nada,callback) {
+    connection.query('SELECT Medlemsnr FROM Bruker', [], (error, result) => {
+
+       callback(result);
+    });
+  }
+
   updateUserInfo(fornavn, etternavn, epost, telefonnummer,
     adresse, postnummer, poststed, id, callback) {
     connection.query('UPDATE Bruker SET fornavn=?, etternavn=?, email=?, tlf=?, adresse=?, postnr=?, poststed=? WHERE email=?',
@@ -173,8 +180,33 @@ class EventService {
     })
   }
 
+  updateEvent(Arrangement_ID, Arrnavn, Dato, Beskrivelse, Oppmotested,
+    Oppmotetidsspunkt, Starttidspunkt, Sluttidspunkt, Postnr, Poststed, callback) {
+    connection.query('UPDATE Arrangement SET Arrnavn = ?, Dato = ?, Beskrivelse= ?, Oppmotested = ?, Oppmotetidsspunkt = ?, Starttidspunkt = ?, Sluttidspunkt = ?, Postnr = ?, Poststed= ? WHERE Arrangement_ID = ?',
+     [Arrnavn, Dato, Beskrivelse, Oppmotested, Oppmotetidsspunkt, Starttidspunkt, Sluttidspunkt, Postnr, Poststed, Arrangement_ID], (error, result) => {
+      if (error) throw error
+      callback()
+    })
+  }
+
   createEventRoles(Arr_rolleID, Arrangements_ID, Medlemsnr, Gitt_Rolle, callback) {
     connection.query('INSERT INTO Arrangement_Rolle (Arr_RolleID, Arrangements_ID, Medlemsnr, Gitt_Rolle) values (?, ?, ? ,?)',
+    [Arr_rolleID, Arrangements_ID, Medlemsnr, Gitt_Rolle], (error, result) => {
+      if (error) throw error
+      callback()
+    })
+  }
+
+  removeEventRoles(Arr_rolleID, Arrangements_ID, Medlemsnr, Gitt_Rolle, callback) {
+    connection.query('INSERT INTO Arrangement_Rolle (Arr_RolleID, Arrangements_ID, Medlemsnr, Gitt_Rolle) values (?, ?, ? ,?)',
+    [Arr_rolleID, Arrangements_ID, Medlemsnr, Gitt_Rolle], (error, result) => {
+      if (error) throw error
+      callback()
+    })
+  }
+
+  updateEventRoles(Arr_rolleID, Arrangements_ID, Medlemsnr, Gitt_Rolle, callback) {
+    connection.query('UPDATE Arrangement_Rolle SET Medlemsnr = ?, GI (Arr_RolleID, Arrangements_ID, Medlemsnr, Gitt_Rolle) values (?, ?, ? ,?)',
     [Arr_rolleID, Arrangements_ID, Medlemsnr, Gitt_Rolle], (error, result) => {
       if (error) throw error
       callback()
@@ -188,6 +220,22 @@ class EventService {
     })
   }
 
+
+  getUserInfo1(nada, callback) {
+    connection.query('SELECT Rolle.Rollenavn AS komp, Bruker.Fornavn AS navn, Bruker.Medlemsnr FROM Rolle JOIN Bruker ON Rolle.Medlemsnr = Bruker.Medlemsnr', [], (error, result) => {
+      if (error) throw error
+
+      callback(result)
+      });
+    }
+
+  getAvailableUsers(Arrangements_ID, callback){
+    connection.query('SELECT Bruker.Medlemsnr, Bruker.Fornavn, Bruker.Etternavn, Rolle.Rollenavn, Periode.Status, Periode.Startdato, Periode.Sluttdato FROM Bruker LEFT JOIN Arrangement_Rolle ON Bruker.Medlemsnr = Arrangement_Rolle.Medlemsnr LEFT JOIN Periode ON Bruker.Medlemsnr = Periode.Medlemsnr LEFT JOIN Arrangement ON Arrangement_Rolle.Arrangements_ID = Arrangement.Arrangement_ID LEFT JOIN Rolle ON Bruker.Medlemsnr = Rolle.Medlemsnr WHERE Arrangement_Rolle.Arrangements_ID != ? OR Arrangement_Rolle.Arrangements_ID IS NULL AND Status != 0 AND 2018-03-30 NOT BETWEEN Periode.Startdato AND Periode.Sluttdato',
+    [Arrangements_ID], (error, result) => {
+      if (error) throw error
+      callback(result)
+    })
+  }
 }
 
 class CalendarService{
@@ -209,11 +257,6 @@ class CalendarService{
       callback(result)
     })
   }
-
-
-
-
-
 
 }
 

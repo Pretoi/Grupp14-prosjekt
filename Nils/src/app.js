@@ -21,22 +21,22 @@ class Menu extends React.Component {
           <div id="header">
             <div>Du er logget inn som Administrator</div>
             <div id="menuBtn">
-              <NavLink activeStyle={{color: '#ffdbdb'}} exact to='/'>Profile</NavLink>{' '}
+              <NavLink activeStyle={{color: 'white'}} exact to='/'>Profile</NavLink>{' '}
             </div>
             <div id="menuBtn">
-              <NavLink activeStyle={{color: '#ffdbdb'}} to='/events'>Arrengement</NavLink>{' '}
+              <NavLink activeStyle={{color: 'white'}} to='/events'>Arrengement</NavLink>{' '}
             </div>
             <div id="menuBtn">
-              <NavLink activeStyle={{color: '#ffdbdb'}} to='/createevent'>Lag Arrangement</NavLink>{' '}
+              <NavLink activeStyle={{color: 'white'}} to='/createevent'>Lag Arrangement</NavLink>{' '}
             </div>
             <div id="menuBtn">
-              <NavLink activeStyle={{color: '#ffdbdb'}} to='/kalender'>Kalender</NavLink>{' '}
+              <NavLink activeStyle={{color: 'white'}} to='/calendar'>Kalender</NavLink>{' '}
             </div>
             <div id="menuBtn">
-              <NavLink activeStyle={{color: '#ffdbdb'}} to='/search'>Søk</NavLink>{' '}
+              <NavLink activeStyle={{color: 'white'}} to='/search'>Søk</NavLink>{' '}
             </div>
             <div id="menuBtn">
-              <NavLink activeStyle={{color: '#ffdbdb'}} to='/signout'>Logg Ut</NavLink>{' '}
+              <NavLink activeStyle={{color: 'white'}} to='/signout'>Logg Ut</NavLink>{' '}
             </div>
           </div>
         )
@@ -44,19 +44,19 @@ class Menu extends React.Component {
       return (
         <div id="header">
           <div id="menuBtn">
-            <NavLink activeStyle={{color: '#ffdbdb'}} exact to='/'>Profil</NavLink>{' '}
+            <NavLink activeStyle={{color: 'white'}} exact to='/'>Profil</NavLink>{' '}
           </div>
           <div id="menuBtn">
-            <NavLink activeStyle={{color: '#ffdbdb'}} to='/events'>Arrengement</NavLink>{' '}
+            <NavLink activeStyle={{color: 'white'}} to='/events'>Arrengement</NavLink>{' '}
           </div>
           <div id="menuBtn">
-            <NavLink activeStyle={{color: '#ffdbdb'}} to='/kalender'>Kalender</NavLink>{' '}
+            <NavLink activeStyle={{color: 'white'}} to='/calendar'>Kalender</NavLink>{' '}
           </div>
           <div id="menuBtn">
-            <NavLink activeStyle={{color: '#ffdbdb'}} to='/search'>Søk</NavLink>{' '}
+            <NavLink activeStyle={{color: 'white'}} to='/search'>Søk</NavLink>{' '}
           </div>
           <div id="menuBtn">
-            <NavLink activeStyle={{color: '#ffdbdb'}} to='/signout'>Logg Ut</NavLink>{' '}
+            <NavLink activeStyle={{color: 'white'}} to='/signout'>Logg Ut</NavLink>{' '}
           </div>
         </div>
       )
@@ -64,10 +64,10 @@ class Menu extends React.Component {
     return (
       <div id="header">
         <div id="menuBtn">
-          <NavLink activeStyle={{color: '#ffdbdb'}} to='/signin'>Sign In</NavLink>{' '}
+          <NavLink activeStyle={{color: 'white'}} to='/signin'>Sign In</NavLink>{' '}
         </div>
         <div id="menuBtn">
-          <NavLink activeStyle={{color: '#ffdbdb'}} to='/signup'>Sign Up</NavLink>
+          <NavLink activeStyle={{color: 'white'}} to='/signup'>Sign Up</NavLink>
         </div>
       </div>
     );
@@ -89,9 +89,7 @@ class SignIn extends React.Component {
   render() {
     return(
       <form id="content">
-        <div>
-          <h1>Logg inn på Røde Kors</h1>
-        </div>
+        <img id="banner" src="rødekors_logo.jpg"/>
         <label><b>Epost-adresse</b></label>
         <input type="email" ref="signInMail" placeholder="Skriv epost-adresse" name="mail" required>
         </input>
@@ -99,8 +97,7 @@ class SignIn extends React.Component {
         <input type="password" ref="signInPsw" placeholder="Skriv passord" name="newPsw" required>
         </input>
         <br></br>
-        <button ref="signInButton">Login</button>
-        <button ref="forgotPswButton">Glemt Passord</button>
+        <button ref="signInButton">Log inn</button>
       </form>
     )
   }
@@ -114,9 +111,6 @@ class SignIn extends React.Component {
       });
     };
 
-    this.refs.forgotPswButton.onclick = () => {
-      alert("du har glemt passordet.")
-    }
   }
 }
 
@@ -126,7 +120,7 @@ class SignUp extends React.Component {
     render() {
       return (
           <div id="content">
-            <h1>Røde Kors</h1>
+            <img id="banner" src="rødekors_logo.jpg"/>
             <form>
             <label><b>Fornavn</b></label>
             <input type="text" ref="signUpName" placeholder="Skriv fornavn" name="newName" required>
@@ -174,10 +168,7 @@ class SignUp extends React.Component {
     componentDidMount() {
 
       this.refs.signUpButton.onclick = () => {
-        alert(this.refs.Båtmannskap.value)
-        userService.signUpAdress(this.refs.signUpPostnr.value, this.refs.signUpPoststed.value, (result) => {
-            alert("Du har nå registrert deg")
-            });
+        
 
         userService.signUp(this.refs.signUpName.value, this.refs.signUpSurname.value, this.refs.signUpPsw.value,
           this.refs.signUpMail.value, this.refs.signUpPhone.value, this.refs.signUpAddress.value,
@@ -213,74 +204,106 @@ class Profile extends React.Component {
   return (
 
     <div id="content">
-      <div>
-        <div>
-          <div ref='fullNameDiv'></div>
-        </div>
-        <div ref='firstNameDiv'></div>
-        <div ref='lastNameDiv'></div>
-        <div ref='emailDiv'></div>
-        <div ref='tlfNmbDiv'></div>
-        <div ref='adresseDiv'></div>
-        <div ref='postnrDiv'></div>
-        <div ref='postStedDiv'></div>
 
-        <button ref="editBtn">Rediger Informasjon</button>
-      </div>
-      <div>
-        <h4>Kompetanse:</h4>
+          <div className="innerContentDiv">
+            <b>Profilside til:</b>
+            <div ref='fullNameDiv'></div>
+          </div>
+          <div className="innerContentDiv">
+            <div ref='firstNameDiv'></div>
+          </div>
+          <div className="innerContentDiv">
+            <div ref='lastNameDiv'></div>
+          </div>
+          <div className="innerContentDiv">
+            <div ref='emailDiv'></div>
+          </div>
+          <div className="innerContentDiv">
+            <div ref='tlfNmbDiv'></div>
+          </div>
+          <div className="innerContentDiv">
+            <div ref='adresseDiv'></div>
+          </div>
+          <div className="innerContentDiv">
+            <div ref='postnrDiv'></div>
+          </div>
+          <div className="innerContentDiv">
+            <div ref='postStedDiv'></div>
+          </div>
+          <div className="innerContentDiv">
+            <button ref="editBtn">Rediger Informasjon</button>
+          </div>
+
+        <div className="innerContentDiv">
+          <h4>Kompetanse:</h4>
           <div ref='komp1Div'></div>
-      </div>
-      <div>
-        <button ref="editKompBtn">Legg til kompetanse</button>
-      </div>
+        </div>
+        <div className="innerContentDiv">
+          <button ref="editKompBtn">Legg til kompetanse</button>
+        </div>
+
     </div>
   );
 }
 
-componentDidMount() {
-  let signedInUser = userService.getSignedInUser();
-  if(signedInUser) {
-    userService.getUserInfo(signedInUser.Email, (result) => {
-      //console.log(result)
-      this.refs.fullNameDiv.innerText = 'Profilside til: ' + result.Fornavn + ' ' + result.Etternavn;
-      this.refs.firstNameDiv.innerText = 'Fornavn: ' + result.Fornavn;
-      this.refs.lastNameDiv.innerText = 'Etternavn: ' + result.Etternavn;
-      this.refs.emailDiv.innerText = 'Email-adresse: ' + result.Email;
-      this.refs.tlfNmbDiv.innerText = 'Telefonnummer: ' + result.Tlf;
-      this.refs.adresseDiv.innerText = 'Adresse: ' + result.Adresse;
-      this.refs.postnrDiv.innerText = 'Postnummer: ' + result.Postnr;
-      this.refs.postStedDiv.innerText = 'Poststed: ' + result.Poststed;
-    })
+  componentDidMount() {
 
-    userService.getUserExpertise(signedInUser.Medlemsnr, (result) => {
-      let listItems = [];
-      let x = 0;
-      for(let expertise of result) {
-        listItems.push(result[x].Rollenavn);
-        x++
+    userService.getAllMedlemsnr(null, (result) => {
+      for (let numbers of result){
+        console.log("Medlemsnr: "+result[numbers])
       }
-      this.refs.komp1Div.innerText = listItems
+      console.log("Alle medlemsnr:"+result)
     })
 
+    let signedInUser = userService.getSignedInUser();
+    if(signedInUser) {
+      userService.getUserInfo(signedInUser.Email, (result) => {
+        //console.log(result)
+        this.refs.fullNameDiv.innerText = result.Fornavn + ' ' + result.Etternavn;
+        this.refs.firstNameDiv.innerText = 'Fornavn: ' + result.Fornavn;
+        this.refs.lastNameDiv.innerText = 'Etternavn: ' + result.Etternavn;
+        this.refs.emailDiv.innerText = 'Email-adresse: ' + result.Email;
+        this.refs.tlfNmbDiv.innerText = 'Telefonnummer: ' + result.Tlf;
+        this.refs.adresseDiv.innerText = 'Adresse: ' + result.Adresse;
+        this.refs.postnrDiv.innerText = 'Postnummer: ' + result.Postnr;
+        this.refs.postStedDiv.innerText = 'Poststed: ' + result.Poststed;
+      })
+
+      userService.getUserExpertise(signedInUser.Medlemsnr, (result) => {
+        let x = 0;
+        for(let expertise of result) {
+          let roleList = document.createElement('div')
+          let roleElement = document.createElement('ul')
+          let roleName = document.createElement('li')
+          let kompetanse_ID = document.createElement('li')
+          roleName.innerText = "Kompetanse: "+result[x].Rollenavn
+          kompetanse_ID.innerText = "Kompetanse ID: "+result[x].Kompetanse_ID
+
+          roleElement.appendChild(roleName)
+          roleElement.appendChild(kompetanse_ID)
+          roleList.appendChild(roleElement)
+
+          this.refs.komp1Div.appendChild(roleList)
+          x++
+        }
+      })
+
+    }
+    else {
+      history.push('/signin');
+    }
+
+    this.refs.editBtn.onclick = () => {
+      history.push('/EditProfile')
+    }
+
+    this.refs.editKompBtn.onclick = () => {
+      history.push('/EditExpertise')
+    }
+
   }
-  else {
-    history.push('/signin');
+
   }
-
-  this.refs.editBtn.onclick = () => {
-    history.push('/EditProfile')
-  }
-
-  this.refs.editKompBtn.onclick = () => {
-    history.push('/EditExpertise')
-  }
-
-}
-
-
-
-}
 
 //#################Rediger Profil##################################################
 
@@ -309,7 +332,7 @@ class EditProfile extends React.Component {
   )
 }
 
-componentDidMount() {
+ componentDidMount() {
   let signedInUser = userService.getSignedInUser()
   userService.getUserInfo(signedInUser.Email, (result) => {
 
@@ -324,8 +347,6 @@ componentDidMount() {
     this.refs.postSted.value = result.Poststed;
 
   });
-
-
 
   this.refs.saveButton.onclick = () => {
     userService.updateUserInfo(this.refs.firstName.value, this.refs.lastName.value, this.refs.email.value,
@@ -370,7 +391,7 @@ class EditExpertise extends React.Component {
           <option value="Videregående sjøredningskurs">Videregående sjøredningskurs</option>
 
         </select>
-        <button ref="saveButton">Lagre Informasjon</button>
+        <button ref="saveButton">Legg til</button>
       </div>
 
     )
@@ -454,18 +475,20 @@ class Events extends React.Component {
       let y = 0;
       for(let arr of result) {
         let arrnavn = document.createElement('ul')
-        let arrbeskrivelse = document.createElement('li')
         let arrdato = document.createElement('li')
+        let arrbeskrivelse = document.createElement('li')
         let knapp = document.createElement('BUTTON')
         knapp.onclick = function () {
           sendToEventDetails(arr.Arrangement_ID)
         }
-        arrnavn.innerText = result[y].Arrnavn
+        arrnavn.innerText = "Navn: "+result[y].Arrnavn
+        let currentEventMonth = result[y].Dato.getMonth()
+        currentEventMonth = parseInt(currentEventMonth)+1 //Må gjøre dette fordi getMonth henter verdier fra 0 til 11
+        arrdato.innerText = "Dato: "+result[y].Dato.getFullYear()+ '-' + currentEventMonth + '-' + result[y].Dato.getDate()
         arrbeskrivelse.innerText = "Info: "+result[y].Beskrivelse
-        arrdato.innerText = "Dato: "+result[y].Dato.getFullYear()+ '-' + result[y].Dato.getMonth() + '-' + result[y].Dato.getDate()
         knapp.innerText = "Mer info"
-        arrnavn.appendChild(arrbeskrivelse)
         arrnavn.appendChild(arrdato)
+        arrnavn.appendChild(arrbeskrivelse)
         arrnavn.appendChild(knapp)
         eventList.appendChild(arrnavn)
 
@@ -516,17 +539,56 @@ class EventDetails extends React.Component{
   render(){
     return(
       <div id="content">
-        <div ref="arrNavnDiv"></div>
-        <div ref='arrInfoDiv'></div>
-        <div ref='arrDatoDiv'></div>
-        <div ref='arrLocationDiv'></div>
-        <div ref='arrOppmøteDiv'></div>
-        <div ref='arrStartDiv'></div>
-        <div ref='arrSluttDiv'></div>
-        <div ref='arrPostnrDiv'></div>
-        <div ref='arrPoststedDiv'></div>
+        <div className='innerContentDiv'>
+          <b>Navn:</b>
+          <div ref="arrNavnDiv"></div>
+        </div>
+        <div className='innerContentDiv'>
+          <b>Informasjon:</b>
+          <div ref='arrInfoDiv'></div>
+        </div>
+        <div className='innerContentDiv'>
+          <b>Dato:</b>
+          <div ref='arrDatoDiv'></div>
+        </div>
+        <div className='innerContentDiv'>
+          <b>Oppmøtetidspunkt:</b>
+          <div ref='arrOppmøteDiv'></div>
+        </div>
+        <div className='innerContentDiv'>
+          <b>Starttidspunkt:</b>
+          <div ref='arrStartDiv'></div>
+        </div>
+        <div className='innerContentDiv'>
+          <b>Slutttidspunkt:</b>
+          <div ref='arrSluttDiv'></div>
+        </div>
+        <div className='innerContentDiv'>
+          <b>Adresse:</b>
+          <div ref='arrStedDiv'></div>
+        </div>
+        <div className='innerContentDiv'>
+          <b>Postnummer:</b>
+          <div ref='arrPostnrDiv'></div>
+        </div>
+        <div className='innerContentDiv'>
+          <b>Poststed:</b>
+          <div ref='arrPoststedDiv'></div>
+        </div>
 
-        <div ref="eventRolesDIV"></div>
+        <div className='innerContentDiv'>Medlemmer registrert i dette arrangementet:</div>
+        <div ref="eventRolesDiv"></div>
+
+
+        <div id="myModal" className="modal">
+
+          <div className="modal-content">
+            <span className="close">&times;</span>
+            <div ref="testidid" id="testidmodal"></div>
+            <ul ref="ledigePersonerUL" id="ledigePersonerUL"></ul>
+          </div>
+
+        </div>
 
         <div ref='adminBtnDiv'></div>
       </div>
@@ -549,10 +611,10 @@ class EventDetails extends React.Component{
       this.refs.arrNavnDiv.innerText = result.Arrnavn
       this.refs.arrInfoDiv.innerText = result.Beskrivelse
       this.refs.arrDatoDiv.innerText = result.Dato
-      this.refs.arrLocationDiv.innerText = result.Oppmotested
       this.refs.arrOppmøteDiv.innerText = result.Oppmotetidsspunkt
       this.refs.arrStartDiv.innerText = result.Starttidspunkt
       this.refs.arrSluttDiv.innerText = result.Sluttidspunkt
+      this.refs.arrStedDiv.innerText = result.Oppmotested
       this.refs.arrPostnrDiv.innerText = result.Postnr
       this.refs.arrPoststedDiv.innerText = result.Poststed
 
@@ -561,21 +623,112 @@ class EventDetails extends React.Component{
     eventService.getEventRoles(currentArrID, (result) => {
       let x = 0
 
-      for(let roles of result) {
-        let roleList = document.createElement('div')
-        let roleElement = document.createElement('ul')
+      for(let Arrangement_Rolle of result) {
+        let arr_rolleID = Arrangement_Rolle.Arr_RolleID
         let medlemsnr = document.createElement('li')
-        let gitt_rolle = document.createElement('li')
-        medlemsnr.innerText = "Medlemsnr: "+result[x].Medlemsnr
-        gitt_rolle.innerText = "Rolletittel: "+result[x].Gitt_Rolle
+        medlemsnr.innerText = "Medlemsnr: "+Arrangement_Rolle.Medlemsnr
 
-        roleElement.appendChild(medlemsnr)
-        roleElement.appendChild(gitt_rolle)
-        roleList.appendChild(roleElement)
-        this.refs.eventRolesDIV.appendChild(roleList)
-        x++
+        let roleName = document.createElement('li')
+        roleName.className = "rolle"
+        roleName.innerText = "Rollenavn:"+Arrangement_Rolle.Gitt_Rolle
+
+
+        let updateButton = document.createElement('button');
+        updateButton.setAttribute ("id", arr_rolleID)
+        updateButton.setAttribute ("classname", "myModal")
+        updateButton.onclick = function () {
+          showModal(Arrangement_Rolle)
+          }
+        updateButton.innerHTML = 'Oppdater'
+        let eventRoleElement = document.createElement('ul') //for hver rolle knyttet til bruker lages et element
+        eventRoleElement.appendChild(roleName)
+        eventRoleElement.appendChild(medlemsnr)
+        eventRoleElement.appendChild(updateButton)
+
+        this.refs.eventRolesDiv.appendChild(eventRoleElement);
+
+      }
+
+    })
+
+    let modal = document.getElementById('myModal');
+    // Get the button that opens the modal
+    let btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    let span = document.getElementsByClassName("close")[0];
+
+
+    // Når brukeren trykker på krysset, så lukkes den
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // Når brukeren klikke utenfor modalen, så lukkes den
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    function showModal(Arrangement_Rolle){
+
+      while (ledigePersonerUL.firstChild) {
+        ledigePersonerUL.removeChild(ledigePersonerUL.firstChild); //fjerner tidligere element i listen
+      }
+       modal.style.display = "block"; //viser modal
+       document.getElementById('testidmodal').innerText = Arrangement_Rolle.Gitt_Rolle //viser valgt rolle til modal
+
+       eventService.getAvailableUsers(currentArrID, result => {
+         for(let Ledig_pers of result) {
+           var ledigNavn = Ledig_pers.Fornavn
+           var PersRolleID = Ledig_pers.Medlemsnr
+           console.log(Ledig_pers.Rollenavn)
+         if (Ledig_pers.Rollenavn == "Hjelpekorpsprøve") {
+           if (Ledig_pers.Rollenavn == "Hjelpekorpsprøve" && Ledig_pers.Status) {
+             let b = document.createElement('b');
+             b.className = "rollePersoner"
+           //  a.href = '#/personDetailsPage/' + personsIndex;
+             b.textContent = ledigNavn;
+             let VelgPerson = document.createElement('button');
+             VelgPerson.setAttribute ("id", PersRolleID)
+
+           /*  VelgPerson.onclick = function () {
+               fjerndenne(Arrangement_Rolle);
+             }*/
+           //  openlist.setAttribute ("onclick", "fjerndenne()")
+             VelgPerson.innerHTML = 'Velg';
+             let li = document.createElement('li');
+             li.appendChild(b);
+             li.appendChild(VelgPerson);
+
+
+
+             ledigePersonerUL.appendChild(li);
+           }
+         }else {
+           console.log("LKOSKDO");
+
+
+            }
+          }
+        });
+
+   }
+
+    /*
+    eventService.getAvailableUsers(currentArrID, (result) => {
+      let y = 0
+
+      for(let roles of result) {
+        if(result[y].Medlemsnr != null){
+          console.log("Medlemsnr ikke knyttet til arr: "+result[y].Medlemsnr)
+        }
+        y++
       }
     })
+    */
+
   }
 }
 
@@ -628,7 +781,7 @@ class CreateEvent extends React.Component {
             <br></br>
             <label><b>Dette brukes til å generere vakt mal, hvis du vil lage en selv eller redigere trykket du på knappen på bunnen av siden</b></label>
             <div>Type Arrangement:
-              <select name="typeArr" ref="rolleFordeling" id="arrType" onChange={() => {oppdaterrolle()}}>
+              <select name="typeArr" ref="rolleFordeling" id="arrType" onChange={() => {genererRolleMal()}}>
                   <option value="1">Festival</option>
                   <option value="2">Idretts arrangement</option>
                   <option value="3">Show</option>
@@ -637,7 +790,7 @@ class CreateEvent extends React.Component {
               </select>
             </div>
             <div>Lokasjon:
-              <select name="plassArr" ref="rolleFordeling" id="arrLokasjon" onChange={() => {oppdaterrolle()}}>
+              <select name="plassArr" ref="rolleFordeling" id="arrLokasjon" onChange={() => {genererRolleMal()}}>
                   <option value="1">Storby</option>
                   <option value="2">Tettsted</option>
                   <option value="3">Fjell</option>
@@ -647,7 +800,7 @@ class CreateEvent extends React.Component {
               </select>
             </div>
             <label>Maks antall deltagere</label>
-            <input type="number" ref="rolleFordeling" id="antallFolk" onChange={() => {oppdaterrolle()}}></input>
+            <input type="number" ref="rolleFordeling" id="antallFolk" onChange={() => {genererRolleMal()}}></input>
 
             <div>Vaktleder</div><input ref="Vaktleder" id="Vaktleder" disabled="true"></input>
             <div>Sanitet</div><input ref="Sanitet" id="Sanitet"></input>
@@ -674,7 +827,7 @@ class CreateEvent extends React.Component {
 
       this.refs.Vaktleder.value = 1
 
-      oppdaterrolle()
+      genererRolleMal()
 
       this.refs.signUpButton.onclick = () => {
 
@@ -682,7 +835,7 @@ class CreateEvent extends React.Component {
           this.refs.ArrOppmotested.value, this.refs.ArrOppmotetid.value, this.refs.ArrStart.value,
           this.refs.ArrSlutt.value, this.refs.ArrPostSted.value, this.refs.ArrPostnr.value, (result) => {
             alert("Arrengement registrert")
-            history.push('/signin');
+            history.push('/signin')
         })
 
         //###########################################################################################
@@ -855,7 +1008,7 @@ class CreateEvent extends React.Component {
 
 }
 
-function oppdaterrolle(){
+function genererRolleMal(){
 
   let typeArra = document.getElementById('arrType').selectedIndex
   let folk = document.getElementById('antallFolk').value
@@ -951,9 +1104,6 @@ function oppdaterrolle(){
 
 }
 
-
-
-
 //#################EDIT EVENT##################################################
 class EditEvent extends React.Component {
   render() {
@@ -965,7 +1115,7 @@ class EditEvent extends React.Component {
           </input>
           <br></br>
           <label><b>Dato</b></label>
-          <input type="date" ref="arrDatoDiv" placeholder="Arrengement Dato" name="ArrDato" required>
+          <input ref="arrDatoDiv" placeholder="Arrengement Dato" name="ArrDato" required>
           </input>
           <br></br>
           <label><b>Beskrivelse</b></label>
@@ -973,11 +1123,11 @@ class EditEvent extends React.Component {
           </textarea>
           <br></br>
           <label><b>Oppmøtested</b></label>
-          <input type="text" ref="arrLocationDiv" placeholder="Sted" name="ArrOppmotested" required>
+          <input type="text" ref="arrStedDiv" placeholder="Sted" name="ArrOppmotested" required>
           </input>
           <br></br>
           <label><b>Oppmøtetidspunkt</b></label>
-          <input type="time" ref="ArrOppmotetid" placeholder="Tid" name="ArrOppmotetid" required>
+          <input type="time" ref="arrOppmoteDiv" placeholder="Tid" name="ArrOppmotetid" required>
           </input>
           <br></br>
           <label><b>Starttidspunkt</b></label>
@@ -998,21 +1148,105 @@ class EditEvent extends React.Component {
           <br></br>
 
           <div>Vaktleder</div><input ref="Vaktleder" id="Vaktleder" disabled="true"></input>
-          <div>Sanitet</div><input ref="Sanitet" id="Sanitet"></input>
-          <div>Scootersjåfør</div><input ref="Scootersjåfør" id="Scootersjåfør"></input>
-          <div>Tre mann scooter</div><input ref="Tremannscooter" id="Tremannscooter"></input>
-          <div>Ambulansemedhjelper</div><input ref="Ambulansemedhjelper" id="Ambulansemedhjelper"></input>
-          <div>Ambulansesjåfør</div><input ref="Ambulansesjåfør" id="Ambulansesjåfør"></input>
-          <div>Tre mann ambulanse</div><input ref="Tremannambulanse" id="Tremannambulanse"></input>
-          <div>Båtfører</div><input ref="Båtfører" id="Båtfører"></input>
-          <div>Båtmedhjelper</div><input ref="Båtmedhjelper" id="Båtmedhjelper"></input>
-          <div>Båtmannskap</div><input ref="Båtmannskap" id="Båtmannskap"></input>
-          <div>Scootermedhjelper</div><input ref="Scootermedhjelper" id="Scootermedhjelper"></input>
-          <div>ATVfører</div><input ref="ATVfører" id="ATVfører"></input>
-          <div>Distriktsensor</div><input ref="Distriktsensor" id="Distriktsensor"></input>
-          <div>Under opplæring</div><input ref="Underopplæring" id="Underopplæring"></input>
-          <div>Markør</div><input ref="Markør" id="Markør"></input>
-          <button ref="signUpButton">Registrer nytt arrengement</button>
+          <div>Sanitet registrert:</div>
+            <input ref="Sanitet" id="Sanitet" disabled="true"></input>
+            <input ref="SanitetNew" id="SanitetNew" placeholder="Legg til/fjern"></input>
+            <select ref="updateSanitetStatus">
+              <option value='add'>Legg til antall</option>
+              <option value='remove'>Fjern antall</option>
+            </select>
+          <div>Scootersjåfør registrert:</div>
+            <input type="number" ref="Scootersjåfør" id="Scootersjåfør" disabled="true"></input>
+            <input ref="ScootersjåførNew" id="ScootersjåførNew" placeholder="Legg til/fjern"></input>
+            <select ref="updateScootersjåførStatus">
+              <option value='add'>Legg til antall</option>
+              <option value='remove'>Fjern antall</option>
+            </select>
+          <div>Tre mann scooter registrert:</div>
+            <input type="number" ref="Tremannscooter" id="Tremannscooter" disabled="true"></input>
+            <input ref="TremannscooterNew" id="TremannscooterNew" placeholder="Legg til/fjern"></input>
+            <select ref="updateTremannscooterStatus">
+              <option value='add'>Legg til antall</option>
+              <option value='remove'>Fjern antall</option>
+            </select>
+          <div>Ambulansemedhjelper registrert:</div>
+            <input type="number" ref="Ambulansemedhjelper" id="Ambulansemedhjelper" disabled="true"></input>
+            <input ref="AmbulansemedhjelperNew" id="AmbulansemedhjelperNew" placeholder="Legg til/fjern"></input>
+            <select ref="updateAmbulansemedhjelperStatus">
+              <option value='add'>Legg til antall</option>
+              <option value='remove'>Fjern antall</option>
+            </select>
+          <div>Ambulansesjåfør registrert:</div>
+            <input type="number" ref="Ambulansesjåfør" id="Ambulansesjåfør" disabled="true"></input>
+            <input ref="AmbulansesjåførNew" id="AmbulansesjåførNew" placeholder="Legg til/fjern"></input>
+            <select ref="updateAmbulansesjåførStatus">
+              <option value='add'>Legg til antall</option>
+              <option value='remove'>Fjern antall</option>
+            </select>
+          <div>Tre mann ambulanse registrert:</div>
+            <input type="number" ref="Tremannambulanse" id="Tremannambulanse" disabled="true"></input>
+            <input ref="TremannambulanseNew" id="TremannambulanseNew" placeholder="Legg til/fjern"></input>
+            <select ref="updateTremannambulanseStatus">
+              <option value='add'>Legg til antall</option>
+              <option value='remove'>Fjern antall</option>
+            </select>
+          <div>Båtfører registrert:</div>
+            <input type="number" ref="Båtfører" id="Båtfører" disabled="true"></input>
+            <input ref="BåtførerNew" id="BåtførerNew" placeholder="Legg til/fjern"></input>
+            <select ref="updateBåtførerStatus">
+              <option value='add'>Legg til antall</option>
+              <option value='remove'>Fjern antall</option>
+            </select>
+          <div>Båtmedhjelper registrert:</div>
+            <input type="number" ref="Båtmedhjelper" id="Båtmedhjelper" disabled="true"></input>
+            <input ref="BåtmedhjelperNew" id="BåtmedhjelperNew" placeholder="Legg til/fjern"></input>
+            <select ref="updateBåtmedhjelperStatus">
+              <option value='add'>Legg til antall</option>
+              <option value='remove'>Fjern antall</option>
+            </select>
+          <div>Båtmannskap registrert:</div>
+            <input type="number" ref="Båtmannskap" id="Båtmannskap" disabled="true"></input>
+            <input ref="BåtmannskapNew" id="BåtmannskapNew" placeholder="Legg til/fjern"></input>
+            <select ref="updateBåtmannskapStatus">
+              <option value='add'>Legg til antall</option>
+              <option value='remove'>Fjern antall</option>
+            </select>
+          <div>Scootermedhjelper registrert:</div>
+            <input type="number" ref="Scootermedhjelper" id="Scootermedhjelper" disabled="true"></input>
+            <input ref="ScootermedhjelperNew" id="ScootermedhjelperNew" placeholder="Legg til/fjern"></input>
+            <select ref="updateScootermedhjelperStatus">
+              <option value='add'>Legg til antall</option>
+              <option value='remove'>Fjern antall</option>
+            </select>
+          <div>ATVfører registrert:</div>
+            <input type="number" ref="ATVfører" id="ATVfører" disabled="true"></input>
+            <input ref="ATVførerNew" id="ATVførerNew" placeholder="Legg til/fjern"></input>
+            <select ref="updateATVførerStatus">
+              <option value='add'>Legg til antall</option>
+              <option value='remove'>Fjern antall</option>
+            </select>
+          <div>Distriktsensor registrert:</div>
+            <input type="number" ref="Distriktsensor" id="Distriktsensor" disabled="true"></input>
+            <input ref="DistriktsensorNew" id="DistriktsensorNew" placeholder="Legg til/fjern"></input>
+            <select ref="updateDistriktsensorStatus">
+              <option value='add'>Legg til antall</option>
+              <option value='remove'>Fjern antall</option>
+            </select>
+          <div>Under opplæring registrert:</div>
+            <input type="number" ref="Underopplæring" id="Underopplæring" disabled="true"></input>
+            <input ref="UnderopplæringNew" id="UnderopplæringNew" placeholder="Legg til/fjern"></input>
+            <select ref="updateUnderopplæringStatus">
+              <option value='add'>Legg til antall</option>
+              <option value='remove'>Fjern antall</option>
+            </select>
+          <div>Markør registrert:</div>
+            <input type="number" ref="Markør" id="Markør"></input>
+            <input ref="MarkørNew" id="MarkørNew" placeholder="Legg til/fjern"></input>
+            <select ref="updateMarkørStatus">
+              <option value='add'>Legg til antall</option>
+              <option value='remove'>Fjern antall</option>
+            </select>
+          <button ref="updateButton">Oppdater informasjon</button>
         </div>
 
     )
@@ -1025,23 +1259,246 @@ class EditEvent extends React.Component {
       console.log(result.Arrnavn)
       this.refs.arrNavnDiv.value = result.Arrnavn
       this.refs.arrInfoDiv.value = result.Beskrivelse
-      this.refs.arrDatoDiv.value = 0+result.Dato.getDate()+','+0+result.Dato.getMonth()+','+result.Dato.getFullYear()
-      this.refs.arrLocationDiv.value = result.Oppmotested
+      this.refs.arrDatoDiv.value = result.Dato.getFullYear()+ '-' + result.Dato.getMonth() + '-' + result.Dato.getDate()
+      this.refs.arrStedDiv.value = result.Oppmotested
+      this.refs.arrOppmoteDiv.valye = result.Oppmotetidsspunkt
       this.refs.arrStartDiv.value = result.Starttidspunkt
       this.refs.arrSluttDiv.value = result.Sluttidspunkt
       this.refs.arrPostnrDiv.value = result.Postnr
       this.refs.arrPoststedDiv.value = result.Poststed
+    })
+
+    eventService.getEventRoles(currentArrID, (result) => {
+      let x = 0
+
+      for(let roles of result) {
+
+        if (this.refs.Vaktleder.id == result[x].Gitt_Rolle) {
+          this.refs.Vaktleder.value ++
+        }
+        else if (this.refs.Sanitet.id == result[x].Gitt_Rolle) {
+          this.refs.Sanitet.value ++
+        }
+        else if (this.refs.Scootersjåfør.id == result[x].Gitt_Rolle) {
+          this.refs.Scootersjåfør.value ++
+        }
+        else if ('3-mann scooter' == result[x].Gitt_Rolle) {
+          this.refs.Tremannscooter.value ++
+        }
+        else if (this.refs.Ambulansemedhjelper.id == result[x].Gitt_Rolle) {
+          this.refs.Ambulansemedhjelper.value ++
+        }
+        else if (this.refs.Ambulansesjåfør.id == result[x].Gitt_Rolle) {
+          this.refs.Ambulansesjåfør.value ++
+        }
+        else if ('3-mann ambulanse' == result[x].Gitt_Rolle) {
+          this.refs.Tremannambulanse.value ++
+        }
+        else if (this.refs.Båtfører.id == result[x].Gitt_Rolle) {
+          this.refs.Båtfører.value ++
+        }
+        else if (this.refs.Båtmedhjelper.id == result[x].Gitt_Rolle) {
+          this.refs.Båtmedhjelper.value ++
+        }
+        else if (this.refs.Båtmannskap.id == result[x].Gitt_Rolle) {
+          this.refs.Båtmannskap.value ++
+        }
+        else if (this.refs.Scootermedhjelper.id == result[x].Gitt_Rolle) {
+          this.refs.Scootermedhjelper.value ++
+        }
+        else if ('ATV-fører' == result[x].Gitt_Rolle) {
+          this.refs.ATVfører.value ++
+        }
+        else if ('Distriktsensor' == result[x].Gitt_Rolle) {
+          this.refs.Distriktsensor.value ++
+        }
+        else if ('Under opplæring' == result[x].Gitt_Rolle) {
+          this.refs.Underopplæring.value ++
+        }
+        else if (this.refs.Markør.id == result[x].Gitt_Rolle) {
+          this.refs.Markør.value ++
+        }
+        x++
+      }
 
     })
 
+    //################OPPDATER ARRANGMENET SPØRRINGER###############################
+    this.refs.updateButton.onclick = () => {
+
+      eventService.updateEvent(currentArrID, this.refs.arrNavnDiv.value, this.refs.arrDatoDiv.value, this.refs.arrInfoDiv.value,
+        this.refs.arrStedDiv.value, this.refs.arrOppmoteDiv.value, this.refs.arrStartDiv.value,
+        this.refs.arrSluttDiv.value, this.refs.arrPostnrDiv.value, this.refs.arrPoststedDiv.value, (result) => {
+          alert("Arrengement oppdatert")
+          history.push('/signin')
+      })
+
+      //###########################################################################################
+
+      //Registrer antall Sanitet
+      if (this.refs.SanitetNew.value != 0){
+        let m = this.refs.SanitetNew.value
+        let i = 0
+        while (i<m){
+          eventService.createEventRoles(null,currentArrID,null,'Sanitet', (result) => {
+            console.log("Sanitet til arrangement registrert")
+          })
+          i++
+        }
+      }
+      //Registrer antall Scootersjåfør
+      if (this.refs.ScootersjåførNew.value != 0){
+        let m = this.refs.ScootersjåførNew.value
+        let i = 0
+        while (i<m){
+          eventService.createEventRoles(null,currentArrID,null,'Scootersjåfør', (result) => {
+            console.log("Scootersjåfør til arrangement registrert")
+          })
+          i++
+        }
+      }
+      //Registrer antall Tre-mann-scooter
+      if (this.refs.TremannscooterNew.value != 0){
+        let m = this.refs.TremannscooterNew.value
+        let i = 0
+        while (i<m){
+          eventService.createEventRoles(null,currentArrID,null,'3-mann scooter', (result) => {
+            console.log("3-mann scooter til arrangement registrert")
+          })
+          i++
+        }
+      }
+      //Registrer antall Ambulansemedhjelper
+      if (this.refs.AmbulansemedhjelperNew.value != 0){
+        let m = this.refs.AmbulansemedhjelperNew.value
+        let i = 0
+        while (i<m){
+          eventService.createEventRoles(null,currentArrID,null,'Ambulansemedhjelper', (result) => {
+            console.log("Ambulansemedhjelper til arrangement registrert")
+          })
+          i++
+        }
+      }
+      //Registrer antall Ambulansesjåfør
+      if (this.refs.AmbulansesjåførNew.value != 0){
+        let m = this.refs.AmbulansesjåførNew.value
+        let i = 0
+        while (i<m){
+          eventService.createEventRoles(null,currentArrID,null,'Ambulansesjåfør', (result) => {
+            console.log("Ambulansesjåfør til arrangement registrert")
+          })
+          i++
+        }
+      }
+      //Registrer antall Tremannambulanse
+      if (this.refs.TremannambulanseNew.value != 0){
+        let m = this.refs.TremannambulanseNew.value
+        let i = 0
+        while (i<m){
+          eventService.createEventRoles(null,currentArrID,null,'3-mann ambulanse', (result) => {
+            console.log("3-mann ambulanse til arrangement registrert")
+          })
+          i++
+        }
+      }
+      //Registrer antall Båtfører
+      if (this.refs.BåtførerNew.value != 0){
+        let m = this.refs.BåtførerNew.value
+        let i = 0
+        while (i<m){
+          eventService.createEventRoles(null,currentArrID,null,'Båtfører', (result) => {
+            console.log("Båtfører til arrangement registrert")
+          })
+          i++
+        }
+      }
+      //Registrer antall Båtmedhjelper
+      if (this.refs.BåtmedhjelperNew.value != 0){
+        let m = this.refs.BåtmedhjelperNew.value
+        let i = 0
+        while (i<m){
+          eventService.createEventRoles(null,currentArrID,null,'Båtmedhjelper', (result) => {
+            console.log("Båtmedhjelper til arrangement registrert")
+          })
+          i++
+        }
+      }
+      //Registrer antall Båtmannskap
+      if (this.refs.BåtmannskapNew.value != 0){
+        let m = this.refs.BåtmannskapNew.value
+        let i = 0
+        while (i<m){
+          eventService.createEventRoles(null,currentArrID,null,'Båtmannskap', (result) => {
+            console.log("Båtmannskap til arrangement registrert")
+          })
+          i++
+        }
+      }
+      //Registrer antall Scootermedhjelper
+      if (this.refs.ScootermedhjelperNew.value != 0){
+        let m = this.refs.ScootermedhjelperNew.value
+        let i = 0
+        while (i<m){
+          eventService.createEventRoles(null,currentArrID,null,'Scootermedhjelper', (result) => {
+            console.log("Scootermedhjelper til arrangement registrert")
+          })
+          i++
+        }
+      }
+      //Registrer antall ATV-fører
+      if (this.refs.ATVførerNew.value != 0){
+        let m = this.refs.ATVførerNew.value
+        let i = 0
+        while (i<m){
+          eventService.createEventRoles(null,currentArrID,null,'ATV-fører', (result) => {
+            console.log("ATV-fører til arrangement registrert")
+          })
+          i++
+        }
+      }
+      //Registrer antall Distriktsensor
+      if (this.refs.DistriktsensorNew.value != 0){
+        let m = this.refs.DistriktsensorNew.value
+        let i = 0
+        while (i<m){
+          eventService.createEventRoles(null,currentArrID,null,'Distriktsensor', (result) => {
+            console.log("Distriktsensor til arrangement registrert")
+          })
+          i++
+        }
+      }
+      //Registrer antall Under opplæring
+      if (this.refs.UnderopplæringNew.value != 0){
+        let m = this.refs.UnderopplæringNew.value
+        let i = 0
+        while (i<m){
+          eventService.createEventRoles(null,currentArrID,null,'Under opplæring', (result) => {
+            console.log("Under opplæring til arrangement registrert")
+          })
+          i++
+        }
+      }
+      //Registrer antall Markør
+      if (this.refs.MarkørNew.value != 0){
+        let m = this.refs.MarkørNew.value
+        let i = 0
+        while (i<m){
+          eventService.createEventRoles(null,currentArrID,null,'Markør', (result) => {
+            console.log("Markør til arrangement registrert")
+          })
+          i++
+        }
+      }
+
+      //###########################################################################################
+
+    }
   }
 }
 
+//#################Kalender##################################################
 
-
-  //#################Kalender##################################################
-
-class Kalender extends React.Component {
+class Calendar extends React.Component {
 
   render() {
 
@@ -1061,7 +1518,12 @@ class Kalender extends React.Component {
               <ul>
                 <li>Startdato: <input type='date' ref='startdato' /></li>
                 <li>Sluttdato: <input type='date' ref='sluttdato' /></li>
-                <li>Status: <input type='number' ref='status' /></li>
+                <li>Status:
+                <select ref='status'>
+                  <option value='0'>Passiv</option>
+                  <option value='1'>Aktiv</option>
+                </select>
+                </li>
               </ul>
               <button ref="regButton">Registrer ny periode</button>
             </div>
@@ -1078,10 +1540,8 @@ class Kalender extends React.Component {
 
       let settings = {};
       let events = [
-        /*{'Date': new Date(2018, 3, 4), 'Title': 'Barnas dag 2018', 'Link': ''},*/
+        {'Date': new Date(2018, 3, 4), 'Title': 'Barnas dag 2018', 'Link': ''}
       ];
-
-
 
       let eventDateCalendar = 0
       let eventDateCalendarList = []
@@ -1092,11 +1552,8 @@ class Kalender extends React.Component {
       for (let events in result){
 
         eventMonthDatabase = result[events].Dato.getMonth()
-        //console.log("Måndte er:"+eventMonthDatabase)
         eventMonthDatabase = parseInt(eventMonthDatabase)+1
-        //console.log("Måndte er så:"+eventMonthDatabase)
         tittel = result[events].Arrnavn
-        //console.log("DatoA:"+datoA)
         eventDateCalendar = result[events].Dato.getFullYear()+ ',' + eventMonthDatabase + ',' + result[events].Dato.getDate()
         eventDateCalendarList.push(eventDateCalendar)
         tittelListe.push(tittel)
@@ -1122,8 +1579,9 @@ class Kalender extends React.Component {
       let x = 0;
       let status = "Aktiv periode"
       for(let expertise of result) {
+        let periodElement = document.createElement('ul')
         let navn = document.createElement('li')
-        let slutt = document.createElement('ul')
+        let slutt = document.createElement('li')
 
         if(result[x].Status == 1){
           status = "Prioritert Periode"
@@ -1249,7 +1707,7 @@ ReactDOM.render((
         <Route exact path='/editProfile' component={EditProfile} />
         <Route exact path='/editExpertise' component={EditExpertise} />
         <Route exact path='/events' component={Events} />
-        <Route exact path='/kalender' component={Kalender} />
+        <Route exact path='/calendar' component={Calendar} />
         <Route exact path='/createevent' component={CreateEvent} />
         <Route exact path='/editEvent' component={EditEvent} />
         <Route exact path='/eventDetails' component={EventDetails} />
